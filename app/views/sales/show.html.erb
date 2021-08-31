@@ -1,0 +1,38 @@
+<% prod_total = [] %>
+
+<div class="container" id="main-receipt" style="width: 400px; margin-bottom:100px">
+  <h4 style="margin-left: 35%">Ma'donna</h4>
+  <%= Date.today.strftime("%B %d, %Y") %><br>Sale #<%= @sale.sale_number %>
+  <% unless @sale.note.nil? %>
+    <br><em class="sale-receipt">Note: <%= @sale.note %></em>
+  <% end %>
+  <p>........................................................................................</p>
+  <div class="parent-container d-flex">
+    <div class="container">
+      <% @sale.sale_phrase.each do |sale| %>
+        <% product,price,multiplier,total = sale.split(',') %>
+        <% prod_total << (price.to_i * multiplier.to_i) %>
+        <p class="sale-receipt"><%= product %><br><%= multiplier %>&nbsp X &nbsp<%= price %></p><br>
+      <% end %>
+    </div>
+    <div class="container">
+      <% prod_total.each do |t| %>
+        <p class="sale-receipt" style="text-align:right"><%= t %><br><br></p><br>
+      <% end %>
+    </div>
+</div>
+    <p>........................................................................................</p>
+    <div class="parent-container d-flex" style="margin-bottom: 20px;">
+        <div class="container"><strong>TOTAL</strong></div>
+        <% if @sale.edited_total.nil? %>
+          <div class="container" style="text-align: right;"><%= @sale.total %></div>
+        <% else %>
+          <% if @sale.total == @sale.edited_total %>
+            <div class="container" style="text-align: right;"><%= @sale.total %></div>
+          <% else %>
+            <div class="container" style="text-align: right;"><em style=" text-decoration: line-through;"><%= @sale.total %></em><br><%= @sale.edited_total %></div>
+          <% end %>
+        <% end %>
+    </div>
+
+</div>

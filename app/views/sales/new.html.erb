@@ -1,0 +1,69 @@
+<% elem = {} %>
+<% price = [] %>
+
+
+<div class="parent-container d-flex">
+  <div class="container" id='links'>
+    <% @product.each do |p| %>
+      <%= link_to p.name, orders_path(p), data: { disable_with: "Please wait..." } %>
+      <% if p.multiplier > 0 %>
+        <% elem.store(p.name, p.multiplier) %>
+        <% price << p.price %>
+        
+      <% end %>
+      <br>
+    <% end %>
+  </div>
+  
+  <div id = 'receipt' class="container">
+    <% if @total > 0 %>
+    <div class="container" id='test'>
+    <p style="margin-top: 20px;"><%= Date.today.strftime("%B %d, %Y") %><br>Sale #<%= @sale_number %></p>
+    <hr class="line">
+      <div class="parent_container d-flex">
+        <div class="container" class="orders" >
+          <% elem.keys.each do |k|%>
+            <p><%= k %></p>
+          <% end %>
+          <strong><p>TOTAL</p></strong>
+        </div>
+        
+        
+        <div class="container" class="orders" style="float:left; clear:none">
+          <% elem.values.each_with_index do |v, i|%>
+            <% p = price[i] * v %>
+            <p>X<%= v %>&nbsp&nbsp&nbsp&nbsp<%= p %></p>
+          <% end %>
+          
+          <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<%= link_to @total, alter_total_path, method: 'get'  %></p>
+        </div>
+      </div>
+        <hr class="line" style="margin-top: 0%; margin-bottom: 30px;">
+        
+        
+      </div>
+
+      
+       <div class="wrapper">
+        <%= button_to "Discard", discard_path, method: 'get', class: "btn-outline-primary btn-sm" %>
+        <%= button_to 'Confirm Order', sales_path, method: 'post', class: "btn-outline-primary btn-sm" %>
+      </div>
+      
+      
+      
+      <div>
+        
+      <div>
+        
+      <% end %>
+      
+        
+        
+        
+      
+     
+    </div>
+    
+  
+  </div>
+  

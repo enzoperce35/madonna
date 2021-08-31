@@ -1,0 +1,13 @@
+<%= form_for :sales, url: sales_path, method: 'post' do |f| %>
+  <p>
+    <%= f.label 'new_total' %><br>
+    <%= f.number_field :edited_total, step: :any, value: @total%>
+  </p>
+  <p>
+    <%= f.label 'Add note' %><br>
+    <%= f.text_field :note %>
+  </p>
+  <p>
+    <%= f.submit "Submit" %>
+  </p>
+<% end %>

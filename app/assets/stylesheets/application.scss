@@ -13,3 +13,49 @@
  *= require_tree .
  *= require_self
  */
+
+ .inv-sections em {
+   color: peru;
+ }
+
+ @media screen and (min-width: 1000px) {
+  #links {
+    font-size: 18px;
+  }
+  .line {
+    width: 320px;
+  }
+  #test {
+    border-style: double;
+    width: 500px;
+    float: left;
+  }
+  
+}
+
+@media screen and (max-width: 425px) {
+  #links {
+    font-size: 14px;
+    padding-right: 0%;
+  }
+  
+  #receipt {
+    font-size: 5px;
+  }
+
+  #orders {
+    width: 60%;
+    padding-left: 0%;
+    padding-right: 0%;
+  }
+
+  .line {
+    width: 130px;
+  }
+
+  #test {
+    border-style: double;
+    width: 160px;
+    margin-right: 0;
+  }
+}

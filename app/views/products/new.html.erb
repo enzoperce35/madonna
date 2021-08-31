@@ -1,0 +1,15 @@
+<h3>Add Product</h3>
+
+<%= form_for :products, url: products_path do |f| %>
+  <p>
+    <%= f.label 'product' %><br>
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label 'price' %><br>
+    <%= f.number_field :price, step: :any %>
+  </p>
+  <p>
+    <%= f.submit "Add" %>
+  </p>
+<% end %>

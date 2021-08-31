@@ -1,0 +1,31 @@
+<div class="container center">
+  <%= form_for :ingredients, url: ingredient_path, method: 'patch' do |f| %>
+    <h3 style="color: rgb(111, 240, 25);">
+      <strong><%= @ingredient.name %></strong>
+      <%= link_to '[x]', ingredient_path(@ingredient), method: 'delete', data: {confirm: 'Are you sure you want to delete this ingredient?'}%>
+    </h3>
+    
+    <p class="inv-sections">
+      <em>current_stock:</em><br>
+      <%= @ingredient.remaining_stock %> / <%= @ingredient.current_stock %><%= @ingredient.unit %>
+    </p>
+    <p class="inv-sections">
+      <em>tagged_products:</em><br>
+      <% @ingredient.products.each do |p| %>
+        <%= p.name %><br>
+      <% end %>
+    </p>
+    <hr>
+        <p>
+          <%= f.number_field :additional, step: :any, placeholder: 'raise stock' %>
+          <%= f.submit "RAISE"%>
+        </p>
+        <p>
+          <%= f.number_field :subtractive, step: :any, placeholder: 'lessen stock' %>
+          <%= f.submit "LESSEN"%>
+        </p>
+      <% end %>
+      <br>
+  </div>
+</div>
+    
