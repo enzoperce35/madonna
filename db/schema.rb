@@ -27,9 +27,9 @@ ActiveRecord::Schema.define(version: 2021_08_31_064401) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.bigint "product_id", null: false
-    t.bigint "ingredient_id", null: false
-    t.bigint "packaging_id", null: false
+    t.bigint "product_id"
+    t.bigint "ingredient_id"
+    t.bigint "packaging_id"
     t.float "subtractive", default: 1.0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

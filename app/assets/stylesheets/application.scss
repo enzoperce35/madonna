@@ -33,6 +33,21 @@
   
 }
 
+@media screen and (min-width: 1000px) {
+  #links {
+    font-size: 18px;
+  }
+  .line {
+    width: 320px;
+  }
+  #test {
+    border-style: double;
+    width: 500px;
+    float: left;
+  }
+  
+}  
+
 @media screen and (max-width: 425px) {
   #links {
     font-size: 14px;

@@ -9,7 +9,6 @@ class IngredientsController < ApplicationController
     helpers.add_full_stock_of(@ingredient)
     
     if @ingredient.save
-      
       redirect_to inventories_path
     else
       redirect_back(fallback_location: 'new')
@@ -43,6 +42,6 @@ class IngredientsController < ApplicationController
 
   def ingredient_params
     # have to put a white space on :current_stock, dkw?
-    params.require(:ingredients).permit(:name, :current_stock , :unit, product_ids: [])
+    params.require(:ingredients).permit(:name, :unit, :current_stock, product_ids: [])
   end
 end

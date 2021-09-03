@@ -6,7 +6,6 @@ Rails.application.routes.draw do
   get 'sales/discard', to: 'sales#discard', as: 'discard'
   get 'sales/alter_total', to: 'sales#alter_total', as: 'alter_total'
 
-
   resources :products, :ingredients, :packagings, only: [:new, :create, :show, :update, :destroy, :edit]
   resources :sales, only: [:new, :create, :show]
   resources :inventories, only: [:index]
