@@ -8,6 +8,8 @@ Bundler.require(*Rails.groups)
 
 module Madonna
   class Application < Rails::Application
+    config.time_zone = 'Hong Kong'
+    config.active_record.default_timezone = :local
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
 

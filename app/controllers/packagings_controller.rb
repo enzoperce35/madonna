@@ -9,7 +9,6 @@ class PackagingsController < ApplicationController
     helpers.add_full_stock_of(@packaging)
     
     if @packaging.save
-      
       redirect_to inventories_path
     else
       redirect_back(fallback_location: 'new')
@@ -23,7 +22,9 @@ class PackagingsController < ApplicationController
   def update
     @packaging = Packaging.find(params[:id])
 
-    helpers.update_stock(@packaging, :packagings)
+    unless params[:additional].nil? || params[:additional].nil?
+      helpers.update_stock(@packaging, :packagings)
+    end
     
     if @packaging.update(packaging_params)
       
@@ -39,10 +40,14 @@ class PackagingsController < ApplicationController
     end
   end
 
+  def edit
+    @packaging = Packaging.find(params[:id])
+  end
+
   private
 
   def packaging_params
     # have to put a white space on :current_stock, dkw?
-    params.require(:packagings).permit(:name, :current_stock , :unit, product_ids: [])
+    params.require(:packagings).permit(:name, :unit, :current_stock, product_ids: [])
   end
 end

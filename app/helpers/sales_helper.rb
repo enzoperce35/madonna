@@ -1,11 +1,9 @@
-
 module SalesHelper
-  def collect_ids(product)
-    sub = Subtractor.first
-
-    sub.update(subtractives: sub.subtractives << product.id)
-  end
-
+  def product_list
+    Product.find_each do |p|
+      p.multiplier > 0
+    end
+  end 
   def log_products(arr = [])
     Subtractor.last.subtractives.each do |prod_id|
       id = prod_id.to_i
@@ -35,7 +33,7 @@ module SalesHelper
   def deduct_ingredients
     Subtractor.last.subtractives.each do |prod_id|
       id = prod_id.to_i
-      IngredientsProduct.all.each do |join|
+      Order.all.each do |join|
         product = Product.find_by(id: join.product_id)
         ingredient = Ingredient.find_by(id: join.ingredient_id)
         perform_subtraction_1(id, join, product, ingredient) if join.product_id == id
@@ -46,7 +44,7 @@ module SalesHelper
   def deduct_packagings
     Subtractor.last.subtractives.each do |prod_id|
       id = prod_id.to_i
-      PackagingsProduct.all.each do |join|
+      Order.all.each do |join|
         product = Product.find_by(id: join.product_id)
         packaging = Packaging.find_by(id: join.packaging_id)
         perform_subtraction_2(id, join, product, packaging) if join.product_id == id
@@ -54,13 +52,13 @@ module SalesHelper
     end
   end
 
-  def def_subtractor
+  def restore_subtractor
     sub = Subtractor.last
 
     sub.update(subtractives: [])
   end
 
-  def def_multiplier
+  def restore_multiplier
     product = Product.all
     
     product.each do |p|
@@ -68,16 +66,22 @@ module SalesHelper
     end
   end
 
-  def return_default
-    def_multiplier
-    def_subtractor
+  def restore_default
+    restore_multiplier
+    restore_subtractor
   end
 
   def new_day?
     Time.current.beginning_of_day > Sale.last.created_at
   end
 
-  def increment_sale
+  def collect_ids(product)
+    sub = Subtractor.first
+    
+    sub.update(subtractives: sub.subtractives << product.id)
+  end
+
+  def incr_sale_number
     if Sale.last.nil? || new_day? 
       1
     else
@@ -94,4 +98,11 @@ module SalesHelper
     total
   end
 
+  def reinburse_inventory(sale_phrase)
+    sale_phrase.each do |phrase|
+      name,multiplier = phrase[0],phrase[2].to_i
+
+      product = Product.find_by(name: name)
+    end
+  end
 end
