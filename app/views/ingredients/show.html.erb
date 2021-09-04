@@ -10,9 +10,11 @@
       <%= @ingredient.remaining_stock %> / <%= @ingredient.current_stock %><%= @ingredient.unit %>
     </p>
     <p class="inv-sections">
-      <em>tagged_products:</em><br>
-      <% @ingredient.products.each do |p| %>
-        <%= p.name %><br>
+      <em style="font-style: italic;"><%= link_to 'tagged_products:', edit_ingredient_path(@ingredient) %></em><br>
+      <% @ingredient.products.each do |prod| %>
+        <% join = prod_ingr(prod, @ingredient) %>
+        
+        <em><%= prod.name %> <em style="color: red;"></em>=><%= link_to join.subtractive, edit_order_path(join) %></em><br>
       <% end %>
     </p>
     <hr>

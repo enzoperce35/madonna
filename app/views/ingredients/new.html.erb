@@ -13,7 +13,12 @@
   <p>
     <strong>Tag Ingredient to:</strong><br>
     <div class="container">
-      <%= f.collection_check_boxes :product_ids, @products.all, :id, :name, multiple: true %>
+      <%= f.collection_check_boxes(:product_ids, Product.all.order(:name), :id, :name) do |prod| %>
+        <div class="form-check">
+          <%= prod.check_box(class: "form-check-input") %>
+          <%= prod.label(class: "form-check-label") %>
+        </div>
+      <% end %>
     </div>
   </p>
   <p>

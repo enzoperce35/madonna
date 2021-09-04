@@ -36,4 +36,8 @@ module ApplicationHelper
     inventory_item.remaining_stock = inventory_item.current_stock
     inventory_item
   end
+
+  def prod_ingr(prod, ingr)
+    Order.find_by(product_id: prod.id, ingredient_id: ingr.id)
+  end
 end

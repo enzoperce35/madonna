@@ -1,0 +1,20 @@
+<h3>Tagged Products</h3>
+
+<% tagged_products = [] %>
+<% prod = Product.find_by(id: @join.product_id) %>
+<% ingr = Ingredient.find_by(id: @join.ingredient_id) %>
+
+<%= form_for :orders, url: order_path(@join), method: 'patch' do |f| %>
+  <p>
+    <div class="parent-container d-flex">
+      <div class="container">
+        <%= prod.name %> <em style="color:rgb(243, 78, 13)">=></em>
+      </div>
+      <div class="container">
+        <%= f.number_field :subtractive, value: @join.subtractive, min: 0, max: 99 %><%= ingr.unit %><br>
+      </div>
+    </div>
+  </p>
+  <%= f.submit "Submit" %>
+  </p>
+<% end %>

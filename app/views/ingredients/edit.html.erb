@@ -1,0 +1,18 @@
+<% tagged_products = [] %>
+<%= form_for :ingredients, url: ingredient_path(@ingredient), method: 'patch' do |f| %>
+    <% @ingredient.products.each { |p| tagged_products << p.name } %>
+ 
+    <strong>tag <em style="color: rgb(132, 236, 132);"><%= @ingredient.name %></em> to:</strong><br>
+    <div class="container">
+      <%= f.collection_check_boxes(:product_ids, Product.all.order(:name), :id, :name) do |prod| %>
+        <div class="form-check">
+           <%= prod.check_box(class: "form-check-input", checked: tagged_products.include?(prod.object.name) )%>
+           <%= prod.label(class: "form-check-label") %>
+        </div>
+      <% end %>
+    </div>
+  </p>
+  <p>
+    <%= f.submit "Submit" %>
+  </p>
+<% end %>

@@ -22,7 +22,9 @@ class IngredientsController < ApplicationController
   def update
     @ingredient = Ingredient.find(params[:id])
 
-    helpers.update_stock(@ingredient, :ingredients)
+    unless params[:additional].nil? || params[:additional].nil?
+      helpers.update_stock(@ingredient, :ingredients)
+    end
     
     if @ingredient.update(ingredient_params)
       
@@ -36,6 +38,10 @@ class IngredientsController < ApplicationController
     if @ingredient.destroy
       redirect_to inventories_path
     end
+  end
+
+  def edit
+    @ingredient = Ingredient.find(params[:id])
   end
 
   private

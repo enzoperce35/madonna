@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :products, :ingredients, :packagings, only: [:new, :create, :show, :update, :destroy, :edit]
   resources :sales, only: [:new, :create, :show]
   resources :inventories, only: [:index]
+  resources :orders, only: [:edit, :update]
 
   
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
