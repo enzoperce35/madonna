@@ -98,8 +98,8 @@ class SalesController < ApplicationController
     # an incremented sale number
     @sale_number = helpers.incr_sale_number
     # list of all products
-    @product = Product.where(:multiplier => 0).order(:name)
-    @orders = Product.where.not(:multiplier => 0).order(updated_at: :desc)
+    @products = Product.where(:multiplier => 0).order(:name)
+    @order_items = Product.where.not(:multiplier => 0).order(updated_at: :desc)
     # total price of chosen products
     @total = helpers.product_total
   end

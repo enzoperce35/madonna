@@ -1,49 +1,62 @@
-<% elem = {} %>
+<% items = {} %>
 <% price = [] %>
-
+<% item_is_selected = !@order_items.nil? %>
+<% disable = { disable_with: "Please wait..." } %>
+<% order_item_is_placed = @total > 0  %>
 
 <div class="parent-container d-flex">
   <div class="container" id='links'>
     <div>
-      <% if !@orders.nil? %>
-        <% @orders.each do |o| %>
-          <p class="prod-links"><%= link_to o.name, orders_path(o), data: { disable_with: "Please wait..." } %></p><br>
-          <% elem.store(o.name, o.multiplier) %>
-          <% price << o.price %>
+      <% if item_is_selected %>
+        <% @order_items.each do |product| %>
+          <p class="prod-links">
+            <%= link_to product.name, orders_path(product), data: disable  %>
+          </p><br>
+          
+          <% items.store(product.name, product.multiplier) %>
+          <% price << product.price %>
         <% end %>
       <% end %>
-    </div>
-    <div>
-      <% @product.each do |p| %>
-        <p class="prod-links"><%= link_to p.name, orders_path(p), data: { disable_with: "Please wait..." } %></p><br>
-      <% end %>
+
+      <div>
+        <% @products.each do |product| %>
+          <p class="prod-links">
+            <%= link_to product.name, orders_path(product), data: disable %>
+          </p><br>
+        <% end %>
+      </div>
     </div>
   </div>
   
   <div id = 'receipt' class="container">
-    <% if @total > 0 %>
-    <div class="container" id='test'>
-    <p style="margin-top: 20px;"><%= Date.today.strftime("%B %d, %Y") %><br>Sale #<%= @sale_number %></p>
-    <hr class="solid-line">
+    <% if order_item_is_placed %>
+      <div class="container" id='test'>
+        <p style="margin-top: 20px;">
+          <%= Date.today.strftime("%B %d, %Y") %><br>Sale #<%= @sale_number %>
+        </p>
+      
+      <hr class="solid-line">
+      
       <div class="parent_container d-flex">
         <div class="container" class="orders" >
-          <% elem.keys.each do |k|%>
-            <p><%= k %></p>
+          <% items.keys.each do |name|%>
+            <p><%= name %></p>
           <% end %>
           <strong><p>TOTAL</p></strong>
         </div>
         
-        
         <div class="container" id="orders">
-          <% elem.values.each_with_index do |v, i|%>
-            <% p = price[i] * v %>
-            <p>X<%= v %>&nbsp&nbsp&nbsp&nbsp<%= p %></p>
+          <% items.values.each_with_index do |multiplier, index|%>
+            <% sub_total = price[index] * multiplier %>
+            
+            <p>X<%= multiplier %>&nbsp&nbsp&nbsp&nbsp<%= sub_total %></p>
           <% end %>
           
           <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<%= link_to @total, alter_total_path, method: 'get'  %></p>
         </div>
       </div>
-        <hr class="solid-line" style="margin-top: 0%; margin-bottom: 30px;">
+        
+      <hr class="solid-line" style="margin-top: 0%; margin-bottom: 30px;">
         
         
       </div>
