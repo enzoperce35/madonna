@@ -10,3 +10,37 @@
 #main-receipt {
   border-style: double;
 }
+
+
+
+@media screen and (max-width: 1400px) {
+  #parent {
+    #cont-links{
+      height: 500px;
+      width:fit-content;
+      overflow: auto;
+      
+      .prod-links {
+        font-style: italic;
+      }
+    }
+    
+    #order-builder {
+      width:fit-content;
+      margin-left: 50px;
+      .bldr-row-1 {
+        width: 200px;
+      }
+      .solid-line {
+        margin: 0 -15px;
+        border: 0;
+        border-top: 1px solid #1f1d1d;
+      }
+    }
+    .sale-buttons {
+      display:inline-block;
+      margin-right:5px;
+      margin-top: 10px;
+    }
+  }
+}

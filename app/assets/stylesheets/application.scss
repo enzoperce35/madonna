@@ -13,60 +13,85 @@
  *= require_tree .
  *= require_self
  */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,500;1,400&display=swap');
 
- @media screen and (min-width: 1000px) {
-  #links {
-    font-size: 18px;
-  }
-  .line {
-    width: 320px;
-  }
-  #test {
-    border-style: double;
-    width: 500px;
-    float: left;
-  }
-  
+
+.header{
+  border-bottom: 1px solid #E2E8F0;
 }
 
-@media screen and (min-width: 1000px) {
-  #links {
-    font-size: 18px;
-  }
-  .line {
-    width: 320px;
-  }
-  #test {
-    border-style: double;
-    width: 500px;
-    float: left;
-  }
-  
-}  
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+}
 
-@media screen and (max-width: 425px) {
-  #links {
-    font-size: 14px;
-    padding-right: 0%;
-  }
-  
-  #receipt {
-    font-size: 5px;
-  }
+.hamburger {
+  display: block;
+  cursor: pointer;
+}
 
-  #orders {
-    width: 60%;
-    padding-left: 0%;
-    padding-right: 0%;
-  }
+.bar {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px auto;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  background-color: #101010;
+}
 
-  .line {
-    width: 130px;
-  }
+.nav-menu {
+  position: fixed;
+  left: -100%;
+  top: 5rem;
+  flex-direction: column;
+  background-color: #fff;
+  width: 100%;
+  border-radius: 10px;
+  text-align: center;
+  transition: 0.3s;
+  box-shadow:
+      0 10px 27px rgba(0, 0, 0, 0.05);
+}
 
-  #test {
-    border-style: double;
-    width: 160px;
-    margin-right: 0;
+.nav-menu.active {
+  left: 0;
+}
+
+.nav-item {
+  margin: 2.5rem 0;
+}
+
+
+.nav-item {
+  margin-left: 5rem;
+}
+
+.nav-link{
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: #475569;
+}
+
+.nav-link:hover{
+  color: #482ff7;
+}
+
+.nav-logo {
+  font-size: 2.1rem;
+  font-weight: 500;
+  color: #482ff7;
+}
+
+.nav-block {
+  display: inline-block;
+  position: relative;
+}
+
+@media only screen and (max-width: 768px) {
+  .nav {
+    font: 2vw;
   }
 }
