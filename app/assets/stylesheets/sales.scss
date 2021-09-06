@@ -2,28 +2,20 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
-
-.sale-receipt {
-  font-size: 10px;
-}
-
-#main-receipt {
-  border-style: double;
-}
-
-
-
-@media screen and (max-width: 1400px) {
-  #parent {
-    #cont-links{
-      height: 500px;
-      width:fit-content;
-      overflow: auto;
+// 350 - 500 px
+@media screen and (max-width: 500px) and (min-width: 350px){
+  #cont-links{
+    height: 500px;
+    width:fit-content;
+    overflow: auto;
+  }  
+  .prod-links {
+    font-style: italic;
+    font-size: 10px;
+  }
+}   
       
-      .prod-links {
-        font-style: italic;
-      }
-    }
+
     
     #order-builder {
       width:fit-content;
@@ -42,5 +34,3 @@
       margin-right:5px;
       margin-top: 10px;
     }
-  }
-}
