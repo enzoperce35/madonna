@@ -15,18 +15,21 @@
  */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,500;1,400&display=swap');
 
-.header{
-  border-bottom: 1px solid #E2E8F0;
+.navbar {
+  width:100%;
+  display: flex;
+  //justify-content: space-between;
+  //align-items: center;
+  //padding: 1rem 1.5rem;
 }
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 1.5rem;
+#main-menu{
+  float:left;
 }
 
 .hamburger {
+  float: right;
+  margin-left: 20px;
   display: block;
   cursor: pointer;
 }
