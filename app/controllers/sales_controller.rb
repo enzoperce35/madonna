@@ -1,4 +1,5 @@
 class SalesController < ApplicationController
+  before_action :force_json, only: :search
   
   # 'Subtractor': a helper model, must not be deleted, if so: dev must create one
   #  and set 'subtractives' column to an empty array
@@ -54,30 +55,37 @@ class SalesController < ApplicationController
 
   # create a new sale if orders were confirmed by the user
   def create
-    # set the sale's values
-    if user_edited_the_sale
-      @new_sale = Sale.new(sale_params)
-      
-      @new_sale.sale_number = helpers.incr_sale_number
-      
-      @new_sale.total = helpers.product_total
-    else
-      @new_sale = Sale.create(total: helpers.product_total, sale_number: helpers.incr_sale_number)
+    @sale = Sale.new(sale_params)
+    #@sale = Sale.new(params.require(:sales).permit(:product_ids, :multipliers))
+    
+    if @sale.save
+      redirect_back(fallback_location: 'new')
     end
+
+    # set the sale's values
+    #if user_edited_the_sale
+      #@new_sale = Sale.new(sale_params)
+      
+      #@new_sale.sale_number = helpers.incr_sale_number
+      
+      #@new_sale.total = helpers.product_total
+    #else
+      #@new_sale = Sale.create(total: helpers.product_total, sale_number: helpers.incr_sale_number)
+    #end
     # save the sale and it's values
-    if @new_sale.save
+    #if @new_sale.save
       # set the sale phrases for the official receipt
-      @new_sale.update(sale_phrase: helpers.log_products)
+      #@new_sale.update(sale_phrase: helpers.log_products)
       # deduct tagged inventory items to each product sold
-      deduct_used_iventory_items
+      #deduct_used_iventory_items
       # remove each product ids from subtractor
       # bring product multipliers to zero again
-      helpers.restore_default
+      #helpers.restore_default
 
-      redirect_to new_sale_path
-    else
-      redirect_to new_sale_path
-    end
+      #redirect_to new_sale_path
+    #else
+      #redirect_to new_sale_path
+    #end
   end
   
   # when the product name is clicked:
@@ -95,13 +103,14 @@ class SalesController < ApplicationController
   # these will render the sales page multiple times
   # and pass these values each time
   def new
+    @products = Product.all.pluck(:name).sort
     # an incremented sale number
-    @sale_number = helpers.incr_sale_number
+    #@sale_number = helpers.incr_sale_number
     # list of all products
-    @products = Product.where(:multiplier => 0).order(:name)
-    @order_items = Product.where.not(:multiplier => 0).order(updated_at: :desc)
+    #@products = Product.where(:multiplier => 0).order(:name)
+    #@order_items = Product.where.not(:multiplier => 0).order(updated_at: :desc)
     # total price of chosen products
-    @total = helpers.product_total
+    #@total = helpers.product_total
   end
 
   def show_total
@@ -118,9 +127,20 @@ class SalesController < ApplicationController
     
   end
 
+  def search
+    q = params[:q].downcase
+    @products = Product.where("name ILIKE ?", "%#{q}%", "%#{q}%").limit(5)
+  end
+
+
+
   private
 
   def sale_params
-    params.require(:sales).permit(:sale_number, :edited_total, :note, :admin_notice)
+    params.require(:sales).permit(:sale_number, :edited_total, :note, :total, :admin_notice, :product_id, :multiplier )
+  end
+
+  def force_json
+    request.format = :json
   end
 end

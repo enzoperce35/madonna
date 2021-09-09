@@ -1,4 +1,1 @@
-<%= link_to 'Add Product', new_product_path, {:class => "btn btn-outline-secondary btn-sm"} %><br><br>
-<% @products.all.each do |product| %>
-  <p><%= link_to product.name, product_path(product), method: 'get' %></p>
-<% end %>
+<input type="search" placeholder="Enter name..." data-behavior="autocomplete">
