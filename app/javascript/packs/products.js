@@ -4,7 +4,7 @@ $( document ).on('turbolinks:load', function() {
 
   var options = {
     url: function(phrase) {
-      return "/products/search.json?q=" + phrase;
+      return "/sales/search.json?q=" + phrase;
     },
     getValue: "name",
   };

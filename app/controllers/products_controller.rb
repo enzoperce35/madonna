@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-   before_action :force_json, only: :search
+  
   def new
   end
 
@@ -31,18 +31,9 @@ class ProductsController < ApplicationController
     end
   end
 
-  def search
-    q = params[:q].downcase
-    @products = Product.where("name ILIKE ?", "%#{q}%").limit(5)
-  end
-
   private
 
   def product_params
     params.require(:products).permit(:name, :price)
-  end
-
-  def force_json
-    request.format = :json
   end
 end

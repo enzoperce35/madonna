@@ -129,10 +129,8 @@ class SalesController < ApplicationController
 
   def search
     q = params[:q].downcase
-    @products = Product.where("name ILIKE ?", "%#{q}%", "%#{q}%").limit(5)
+    @products = Product.where("name ILIKE ?", "%#{q}%").limit(5)
   end
-
-
 
   private
 
