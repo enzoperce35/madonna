@@ -1,0 +1,15 @@
+<%= form_for :items, url: items_path do |f| %>
+  <p>
+    <div style="display: inline-block;">
+      <%= f.text_field :product, type: "search", placeholder: "Enter name...", id: "autocomplete", value: 'steak' %>
+    </div>
+    <div style="display: inline-block;">
+      X  <%= f.number_field :multiplier, min: 0, max: 99, value: 3 %>
+    </div>
+  </p>
+  <p>
+    <%= f.submit "Submit" %>
+  </p>
+<% end %>
+
+<%= session[:current_sale].inspect %>
