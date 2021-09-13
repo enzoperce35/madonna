@@ -1,5 +1,4 @@
 class SalesController < ApplicationController
-  before_action :force_json, only: :search
   
   # 'Subtractor': a helper model, must not be deleted, if so: dev must create one
   #  and set 'subtractives' column to an empty array
@@ -117,23 +116,13 @@ class SalesController < ApplicationController
     
   end
 
-  def search
-    q = params[:q].downcase
-    @products = Product.where("name ILIKE ?", "%#{q}%").limit(5)
-  end
-
   private
 
   def set_sale_items
     @sale_items = Sale.find(params[:id])
   end
 
-  
   def sale_params
     params.require(:sale).permit(:sale_number, :edited_total, :note, :total, :admin_notice, :product_id, :multiplier, items_attributes: Item.attribute_names.map(&:to_sym).push(:_destroy))
-  end
-
-  def force_json
-    request.format = :json
   end
 end

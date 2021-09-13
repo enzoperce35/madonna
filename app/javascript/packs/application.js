@@ -17,6 +17,4 @@ Turbolinks.start()
 ActiveStorage.start()
 
 require("jquery")
-require("easy-autocomplete")
-import "packs/products.js"
 import "packs/sales_nested_form.js"
