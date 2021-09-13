@@ -4,7 +4,7 @@
     <%= link_to 'Delete', '#', class: 'remove_record' %>
   </td>
   
-  <td><%= f.input :product, label: false, as: :string %></td>
+  <td><%= f.input :product, label: false, as: :select2, collection: Product.all %></td>
   <td>
     <div class='col-md-4'>
       <%= f.input(:multiplier, label: false, as: :integer, components: [:input], :wrapper => false) %>
