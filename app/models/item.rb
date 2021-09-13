@@ -1,3 +1,3 @@
 class Item < ApplicationRecord
-  belongs_to :sales, optional: true
+  belongs_to :sale, optional: true
 end

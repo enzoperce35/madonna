@@ -16,3 +16,4 @@ ActiveStorage.start()
 require("jquery")
 require("easy-autocomplete")
 import "packs/products.js"
+import "packs/items.js"

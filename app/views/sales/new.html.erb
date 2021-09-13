@@ -1,1 +1,28 @@
-<input type="search" placeholder="Enter name..." data-behavior="autocomplete">
+<!--<input type="search" placeholder="Enter name..." data-behavior="autocomplete">-->
+
+<%= simple_form_for(@sale) do |f| %>
+  <%= f.error_notification %>
+  
+  <table class='table'>
+    <div style="float: right;">
+      <%= f.button(:submit, class: 'btn btn-primary btn-success')%>
+    </div>
+    <thead>
+      <tr>
+        <th></th>
+        <th>Product</th>
+        <th>Multiplier</th>
+      </tr>
+    </thead>
+    <tbody class='fields'>
+      <%= f.simple_fields_for :items do |builder| %>
+        <%= render 'sale', f: builder %>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="form-actions">
+    
+    <%= link_to_add_row('Add Item', f, :items, class: 'btn btn-primary') %>
+  </div>
+<% end %>

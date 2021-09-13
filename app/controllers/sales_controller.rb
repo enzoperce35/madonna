@@ -33,24 +33,16 @@ class SalesController < ApplicationController
   end
 
   def update
-    @sale = Sale.find(params[:id])
-
-    if @sale.update(sale_params)
-      redirect_to root_path
-    else
-      redirect_to inventories_path
-    end
+   if @sale.update(sale_params)
+     redirect_to @sale, notice: 'Sale was successfully updated'
+   else
+    render 'edit'
+   end
   end
 
   def destroy
-    @sale = Sale.find(params[:id])
-
-    # this method is soon to be used as soon as inventory subtractiona amount feature is enabled!
-    # helpers.reinburse_inventory(@sale.sale_phrase)
-
-    if @sale.destroy
-      redirect_to root_path
-    end
+    @sale.destroy
+    redirect_to sales_url, notice: 'Sales was successfully destroyed'
   end
 
   # create a new sale if orders were confirmed by the user
@@ -103,14 +95,12 @@ class SalesController < ApplicationController
   # these will render the sales page multiple times
   # and pass these values each time
   def new
-    @products = Product.all.pluck(:name).sort
-    # an incremented sale number
-    #@sale_number = helpers.incr_sale_number
-    # list of all products
-    #@products = Product.where(:multiplier => 0).order(:name)
-    #@order_items = Product.where.not(:multiplier => 0).order(updated_at: :desc)
-    # total price of chosen products
-    #@total = helpers.product_total
+    @sale = Sale.new
+    @sale.items.build
+  end
+  
+  def edit
+    @sale.items.build
   end
 
   def show_total
@@ -134,8 +124,13 @@ class SalesController < ApplicationController
 
   private
 
+  def set_sale_items
+    @sale_items = Sale.find(params[:id])
+  end
+
+  
   def sale_params
-    params.require(:sales).permit(:sale_number, :edited_total, :note, :total, :admin_notice, :product_id, :multiplier )
+    params.require(:sale).permit(:sale_number, :edited_total, :note, :total, :admin_notice, :product_id, :multiplier, items_attributes: Item.attribute_names.map(&:to_sym).push(:_destroy))
   end
 
   def force_json
