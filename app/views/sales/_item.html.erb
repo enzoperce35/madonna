@@ -3,11 +3,16 @@
     <%= f.input_field :_destroy, as: :hidden %>
     <%= link_to 'Delete', '#', class: 'remove_record' %>
   </td>
-    
-  <td><%= f.input :product, label: false, as: :select2, collection: Product.all %></td>
+  
   <td>
-    <div class='col-md-4'>
-      <%= f.input(:multiplier, label: false, as: :integer, components: [:input], :wrapper => false) %>
-    </div>
+    <%= f.input :product, label: false, collection: Product.all.order(:name), input_html: {id: 'prod'} %><br>
   </td>
+    
+  <td id='price'></td>
+    
+  <td>
+    <%= f.number_field :multiplier, :id => 'multi', min: 0, max: 99 %>
+  </td>
+  
+  <td id="total"></td>
 </tr>

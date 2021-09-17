@@ -13,7 +13,9 @@
       <tr>
         <th></th>
         <th>Product</th>
-        <th>Multiplier</th>
+        <th>Price</th>
+        <th>Count</th>
+        <th>Total</th>
       </tr>
     </thead>
     <tbody class='fields'>
@@ -32,3 +34,18 @@
     </div>
   </div>
 <% end %>
+
+<script>
+  document.getElementById('multi').addEventListener('click', function() {
+    var queryString = Number(document.getElementById('prod').value) - 1;
+    var queryCount = document.getElementById('multi').value;
+    var total = '<%= @products %>'.slice(1, -1).split(',');
+    var price = total[queryString];
+    
+   if (queryString > -1) {
+     document.getElementById('price').innerHTML = price
+   };
+    
+     document.getElementById('total').innerHTML = (price * queryCount)
+  });
+</script>

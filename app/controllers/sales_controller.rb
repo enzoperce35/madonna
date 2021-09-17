@@ -94,6 +94,7 @@ class SalesController < ApplicationController
   # these will render the sales page multiple times
   # and pass these values each time
   def new
+    @products = Product.pluck(:price)
     @sale = Sale.new
     @sale.items.build
   end

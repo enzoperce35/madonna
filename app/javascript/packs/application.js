@@ -18,3 +18,4 @@ ActiveStorage.start()
 
 require("jquery")
 import "packs/sales_nested_form.js"
+
