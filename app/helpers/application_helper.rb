@@ -41,15 +41,16 @@ module ApplicationHelper
     Order.find_by(product_id: prod.id, ingredient_id: ingr.id)
   end
 
-
-
-
   def link_to_add_row(name, f, association, **args)
     new_object = f.object.send(association).klass.new
     id = new_object.object_id
     fields = f.simple_fields_for(association, new_object, child_index: id) do |builder|
-      render(association.to_s.singularize, f: builder)
+      render(association.to_s.singularize, identifier: id, f: builder)
     end
     link_to(name, '#', class: "add_fields " + args[:class], data: {id: id, fields: fields.gsub("\n", "")})
+  end
+
+  def create_unique_id
+    [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
   end
 end

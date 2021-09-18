@@ -97,6 +97,7 @@ class SalesController < ApplicationController
     @products = Product.pluck(:price)
     @sale = Sale.new
     @sale.items.build
+    @blocks = Array.new
   end
   
   def edit
