@@ -49,8 +49,4 @@ module ApplicationHelper
     end
     link_to(name, '#', class: "add_fields " + args[:class], data: {id: id, fields: fields.gsub("\n", "")})
   end
-
-  def create_unique_id
-    [*('a'..'z'),*('0'..'9')].shuffle[0,8].join
-  end
 end
