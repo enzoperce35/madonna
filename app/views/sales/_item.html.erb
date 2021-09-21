@@ -2,7 +2,6 @@
   <% multi_id = ('multi' + identifier.to_s) %>
   <% prod_id = ('prod' + identifier.to_s) %>
   <% price_id = ('price' + identifier.to_s) %>
-  <% total_id = ('total' + identifier.to_s) %>
   <% up_id = ('up' + identifier.to_s) %>
   <% down_id = ('down' + identifier.to_s) %>
 <% end %>
@@ -17,22 +16,21 @@
     <%= f.input :product, label: false, collection: Product.all.order(:name), input_html: {id: prod_id} %><br>
   </td>
     
-  <td id= <%= price_id %> style="width: 10%" ></td>
-    
   <td style="width: 3%;"><div id=<%= down_id %> class="btn btn-warning multiplier">-</div></td>
   
   <td style="width: 5%;">
     <!--<%= f.number_field :multiplier, :id => multi_id, min: 0, max: 99 %>-->
-    <%= f.input(:multiplier, label: false, as: :string, components: [:input], :wrapper => false, disabled: true, input_html: {id: multi_id, value: f.object.multiplier || 0 } )%>
+    <%= f.input(:multiplier, label: false, as: :string, components: [:input], :wrapper => false, disabled: true, input_html: {id: multi_id} )%>
   </td>
   
   <td style="width: 3%;"><div id=<%= up_id %> class="btn btn-success multiplier">+</div></td>
   
-  <td id= <%= total_id %> + suff style="text-align:right" class="all-total"></td>
+  <td id= <%= price_id %> + suff style="text-align:right"></td>
 </tr>
 
 
 <script>
+  document.getElementById('<%= prod_id %>').focus();
  
   var a = 1;
   function increase(partial_id){
@@ -40,11 +38,11 @@
     var prices = '<%= @products %>'.slice(1, -1).split(',');
     var price = Number(prices[prodIndex]);
     var multiplier = document.getElementById('multi' + partial_id);
-    
+
     multiplier.value = a;
     a++;
     
-    document.getElementById('total' + partial_id).innerHTML = price * multiplier.value
+    document.getElementById('price' + partial_id).innerHTML = price * multiplier.value
   };
   
   function decrease(partial_id){
@@ -52,11 +50,11 @@
     var prices = '<%= @products %>'.slice(1, -1).split(',');
     var price = Number(prices[prodIndex]);
     var multiplier = document.getElementById('multi' + partial_id);
-    
+
     multiplier.value = a;
     a--;
 
-    document.getElementById('total' + partial_id).innerHTML = price * multiplier.value
+    document.getElementById('price' + partial_id).innerHTML = price * multiplier.value
   }
 
   function inc_dec(attribute) {
@@ -93,10 +91,8 @@
      var price = total[queryString];
 
      if (queryString > -1) {
-       document.getElementById('<%= price_id %>').innerHTML = price
+       document.getElementById('<%= multi_id %>').value = 1;
+       document.getElementById('<%= price_id %>').innerHTML = price;
      };
-   
-     document.getElementById('<%= total_id %>').innerHTML = (price * queryCount)
-  
    })
 </script>
