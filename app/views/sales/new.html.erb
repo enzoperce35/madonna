@@ -15,7 +15,7 @@
     </thead>
     <tbody class='fields'>
       <%= f.simple_fields_for :items do |builder| %>
-        <%= render 'item', identifier: 0, f: builder %>
+        <%= render 'item', identifier: 8417290001825, f: builder %>
       <% end %>
     </tbody>
   </table>
@@ -36,5 +36,9 @@
 
 
 <script>
-   document.getElementById('grand-total').innerHTML = 'test'
+
+
+   document.getElementById('new_item').addEventListener('click', function() {
+     document.querySelectorAll('.multiplier').forEach(e => e.remove());
+   });
 </script>
