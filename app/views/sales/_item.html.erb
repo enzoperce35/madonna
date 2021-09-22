@@ -82,8 +82,6 @@
     elements[i].addEventListener('click', myFunction, false);
    }
 
-   
-   
    document.getElementById('<%= prod_id %>').addEventListener('input', function() {
      var queryString = Number(document.getElementById('<%= prod_id %>').value) - 1;
      var queryCount = document.getElementById('<%= multi_id %>').value;
