@@ -4,12 +4,13 @@
   <% price_id = ('price' + identifier.to_s) %>
   <% up_id = ('up' + identifier.to_s) %>
   <% down_id = ('down' + identifier.to_s) %>
+  <% delete_id = ('delete' + identifier.to_s) %>
 <% end %>
 
 <tr>
   <td style="width: 5%;">
     <%= f.input_field :_destroy, as: :hidden %>
-    <%= link_to '[X]', '#', class: 'remove_record', id: 'delete' %>
+    <%= link_to '[X]', '#', class: 'remove_record', id: delete_id %>
   </td>
   
   <td>
@@ -20,7 +21,7 @@
   
   <td style="width: 5%;">
     <!--<%= f.number_field :multiplier, :id => multi_id, min: 0, max: 99 %>-->
-    <%= f.input(:multiplier, label: false, as: :string, components: [:input], :wrapper => false, input_html: {id: multi_id} )%>
+    <%= f.input(:multiplier, label: false, as: :string, components: [:input], :wrapper => false, input_html: {id: multi_id, readonly: :true} )%>
   </td>
   
   <td style="width: 3%;"><div id=<%= up_id %> class="btn btn-success multiplier">+</div></td>
@@ -32,14 +33,28 @@
 <script>
   document.getElementById('<%= prod_id %>').focus();
 
-  
   function showTotal() {
     var total = 0;
     document.querySelectorAll('.all-total').forEach(e => total += Number(e.innerHTML));
     
     return total;
   }
+
   
+  var deleteButtons = document.getElementsByClassName("remove_record");
+
+  var totalDeductor = function() {
+    var deleteId = this.getAttribute('id');
+    var price_id = deleteId.replace('delete', 'price');
+
+    document.getElementById(price_id).remove();
+    document.getElementById('grand-total').innerHTML = showTotal();
+   };
+  
+   for (var i = 0; i < deleteButtons.length; i++) {
+    deleteButtons[i].addEventListener('click', totalDeductor, false);
+   };
+
   var a = 1;
   function increase(partial_id){
     var total = showTotal();
