@@ -45,7 +45,7 @@ class SalesController < ApplicationController
   end
 
   # create a new sale if orders were confirmed by the user
-  def create
+  def createss
     @sale = Sale.new(sale_params)
     #@sale = Sale.new(params.require(:sales).permit(:product_ids, :multipliers))
     
@@ -93,12 +93,7 @@ class SalesController < ApplicationController
   
   # these will render the sales page multiple times
   # and pass these values each time
-  def new
-    @products = Product.pluck(:price)
-    @sale = Sale.new
-    @sale.items.build
-    @blocks = Array.new
-  end
+  
   
   def edit
     @sale.items.build
@@ -115,7 +110,24 @@ class SalesController < ApplicationController
       end
       @total_sales
     end
-    
+  end
+
+ 
+  def create
+    @sale = Sale.new(sale_params)
+    @sale.sale_number = helpers.incr_sale_number
+    @sale.total = helpers.create_total(@sale)
+    @sale.sale_phrase = helpers.create_sale_phrase(@sale)
+    if @sale.save
+      redirect_back(fallback_location: 'new')
+    end
+  end
+
+  def new
+    @products = Product.pluck(:price)
+    @sale = Sale.new
+    @sale.items.build
+    @blocks = Array.new
   end
 
   private

@@ -13,8 +13,8 @@
   <div class="parent-container d-flex">
     <div class="container">
       <% @sale.sale_phrase.each do |sale| %>
-        <% product,price,multiplier,total = sale.split(',') %>
-        <% prod_total << (price.to_i * multiplier.to_i) %>
+        <% product,price,multiplier,total = sale.split('$') %>
+        <% prod_total << (price.to_f * multiplier.to_i) %>
         <p class="receipt-texts"><%= product %><br><%= multiplier %>&nbsp X &nbsp<%= price %></p><br>
       <% end %>
     </div>

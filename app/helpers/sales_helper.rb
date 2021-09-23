@@ -81,14 +81,7 @@ module SalesHelper
     sub.update(subtractives: sub.subtractives << product.id)
   end
 
-  def incr_sale_number
-    if Sale.last.nil? || new_day? 
-      1
-    else
-      Sale.last.sale_number + 1
-    end
-  end
-
+  
   def product_total(total = 0)
     Product.all.each do |p|
       if p.multiplier > 0
@@ -105,4 +98,32 @@ module SalesHelper
       product = Product.find_by(name: name)
     end
   end
+
+  def create_sale_phrase(sale, arr = [])
+    sale.items.each do |item|
+      product = Product.find_by(id: (item.product).to_i)
+      price = product.price * item.multiplier
+      phrase = "#{product.name}$#{product.price}$#{item.multiplier}$#{price}"
+      arr << phrase
+    end
+    arr
+  end
+  
+  def create_total(sale, total = 0)
+    sale.items.each do |item|
+      product = Product.find_by(id: (item.product).to_i)
+      price = product.price * item.multiplier
+      total += price
+    end
+    total
+  end
+  
+  def incr_sale_number
+    if Sale.last.nil? || new_day? 
+      1
+    else
+      Sale.last.sale_number + 1
+    end
+  end
+
 end
