@@ -15,13 +15,14 @@ ActiveRecord::Schema.define(version: 2021_09_09_211846) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "ingredients", force: :cascade do |t|
+  create_table "inventory_items", force: :cascade do |t|
     t.string "name"
     t.string "unit"
     t.float "current_stock"
     t.float "subtractive"
     t.float "additional"
     t.float "remaining_stock"
+    t.string "type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -29,7 +30,6 @@ ActiveRecord::Schema.define(version: 2021_09_09_211846) do
   create_table "items", force: :cascade do |t|
     t.string "product"
     t.integer "multiplier"
-    t.string "total"
     t.bigint "sale_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -38,25 +38,12 @@ ActiveRecord::Schema.define(version: 2021_09_09_211846) do
 
   create_table "orders", force: :cascade do |t|
     t.bigint "product_id"
-    t.bigint "ingredient_id"
-    t.bigint "packaging_id"
+    t.bigint "inventory_item_id"
     t.float "subtractive", default: 1.0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["ingredient_id"], name: "index_orders_on_ingredient_id"
-    t.index ["packaging_id"], name: "index_orders_on_packaging_id"
+    t.index ["inventory_item_id"], name: "index_orders_on_inventory_item_id"
     t.index ["product_id"], name: "index_orders_on_product_id"
-  end
-
-  create_table "packagings", force: :cascade do |t|
-    t.string "name"
-    t.string "unit"
-    t.float "current_stock"
-    t.float "subtractive"
-    t.float "additional"
-    t.float "remaining_stock"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "products", force: :cascade do |t|
@@ -77,10 +64,6 @@ ActiveRecord::Schema.define(version: 2021_09_09_211846) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "admin_notice"
-    t.integer "product_id"
-    t.text "product_ids", array: true
-    t.integer "multiplier"
-    t.text "multipliers", array: true
   end
 
   create_table "subtractors", force: :cascade do |t|
@@ -101,7 +84,6 @@ ActiveRecord::Schema.define(version: 2021_09_09_211846) do
   end
 
   add_foreign_key "items", "sales"
-  add_foreign_key "orders", "ingredients"
-  add_foreign_key "orders", "packagings"
+  add_foreign_key "orders", "inventory_items"
   add_foreign_key "orders", "products"
 end

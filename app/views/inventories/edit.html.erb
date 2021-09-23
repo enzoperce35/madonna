@@ -1,8 +1,8 @@
 <% tagged_products = [] %>
-<%= form_for :ingredients, url: ingredient_path(@ingredient), method: 'patch' do |f| %>
-    <% @ingredient.products.each { |p| tagged_products << p.name } %>
+<%= form_for :inventory_items, url: inventory_path(@item), method: 'patch' do |f| %>
+    <% @item.products.each { |p| tagged_products << p.name } %>
  
-    <strong>tag <em style="color: rgb(132, 236, 132);"><%= @ingredient.name %></em> to:</strong><br>
+    <strong>tag <em style="color: rgb(132, 236, 132);"><%= @item.name %></em> to:</strong><br>
     <div class="container">
       <%= f.collection_check_boxes(:product_ids, Product.all.order(:name), :id, :name) do |prod| %>
         <div class="form-check">

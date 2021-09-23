@@ -1,8 +1,8 @@
-<h3>Add Ingredient</h3>
+<h3>Add Inventory Item</h3>
 
-<%= form_for :ingredients, url: ingredients_path do |f| %>
+<%= form_for :inventory_items, url: inventories_path, method: 'post' do |f| %>
   <p>
-    <%= f.label 'ingredient name' %><br>
+    <%= f.label 'item name' %><br>
     <%= f.text_field :name %>
   </p>
   <p>
@@ -11,7 +11,7 @@
     <%= f.select :unit, ['pieces', 'cans', 'bottles'] %>
   </p>
   <p>
-    <strong>Tag Ingredient to:</strong><br>
+    <strong>Tag Item to:</strong><br>
     <div class="container">
       <%= f.collection_check_boxes(:product_ids, Product.all.order(:name), :id, :name) do |prod| %>
         <div class="form-check">

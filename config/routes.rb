@@ -8,9 +8,9 @@ Rails.application.routes.draw do
   get 'sales/show_total', to: 'sales#show_total', as: 'show_total'
 
   resources :products
+  resources :inventories
   resources :ingredients, :packagings, only: [:new, :create, :show, :update, :destroy, :edit]
   resources :sales, only: [:new, :create, :show, :update, :destroy]
-  resources :inventories, only: [:index]
   resources :orders, only: [:edit, :update]
 
   

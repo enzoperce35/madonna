@@ -37,8 +37,8 @@ module ApplicationHelper
     inventory_item
   end
 
-  def prod_ingr(prod, ingr)
-    Order.find_by(product_id: prod.id, ingredient_id: ingr.id)
+  def item_join(prod, item)
+    Order.find_by(product_id: prod.id, inventory_item_id: item.id)
   end
 
   def link_to_add_row(name, f, association, **args)

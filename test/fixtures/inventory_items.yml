@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  product: one
+  name: MyString
+  unit: MyString
+  current_stock: 1.5
+  subtractive: 1.5
+  additional: 1.5
+  remaining_stock: 1.5
+  type: 
+
+two:
+  product: two
+  name: MyString
+  unit: MyString
+  current_stock: 1.5
+  subtractive: 1.5
+  additional: 1.5
+  remaining_stock: 1.5
+  type: 

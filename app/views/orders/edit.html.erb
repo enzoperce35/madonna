@@ -2,7 +2,7 @@
 
 <% tagged_products = [] %>
 <% prod = Product.find_by(id: @join.product_id) %>
-<% ingr = Ingredient.find_by(id: @join.ingredient_id) %>
+<% inv = InventoryItem.find_by(id: @join.inventory_item_id) %>
 
 <%= form_for :orders, url: order_path(@join), method: 'patch' do |f| %>
   <p>
@@ -11,7 +11,7 @@
         <%= prod.name %> <em style="color:rgb(243, 78, 13)">=></em>
       </div>
       <div class="container">
-        <%= f.number_field :subtractive, value: @join.subtractive, min: 0, max: 99 %><%= ingr.unit %><br>
+        <%= f.number_field :subtractive, value: @join.subtractive, min: 0, max: 99 %><%= inv.unit %><br>
       </div>
     </div>
   </p>

@@ -1,18 +1,18 @@
 <div class="container center">
-  <%= form_for :ingredients, url: ingredient_path, method: 'patch' do |f| %>
+  <%= form_for :inventory_items, url: inventory_path, method: 'patch' do |f| %>
     <h3 style="color: rgb(111, 240, 25);">
-      <strong><%= @ingredient.name %></strong>
-      <%= link_to '[x]', ingredient_path(@ingredient), method: 'delete', data: {confirm: 'Are you sure you want to delete this ingredient?'}%>
+      <strong><%= @item.name %></strong>
+      <%= link_to '[x]', inventory_path(@item), method: 'delete', data: {confirm: 'Are you sure you want to delete this inventory item?'}%>
     </h3>
     
     <p class="inv-sections">
       <em>current_stock:</em><br>
-      <%= @ingredient.remaining_stock %> / <%= @ingredient.current_stock %><%= @ingredient.unit %>
+      <%= @item.remaining_stock %> / <%= @item.current_stock %><%= @item.unit %>
     </p>
     <p class="inv-sections">
-      <em style="font-style: italic;"><%= link_to 'tagged_products:', edit_ingredient_path(@ingredient) %></em><br>
-      <% @ingredient.products.each do |prod| %>
-        <% join = prod_ingr(prod, @ingredient) %>
+      <em style="font-style: italic;"><%= link_to 'tagged_products:', edit_inventory_path(@item) %></em><br>
+      <% @item.products.each do |prod| %>
+        <% join = item_join(prod, @item) %>
         
         <em><%= prod.name %> <em style="color: red;"></em>=><%= link_to join.subtractive, edit_order_path(join) %></em><br>
       <% end %>
