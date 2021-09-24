@@ -119,6 +119,8 @@ class SalesController < ApplicationController
     @sale.total = helpers.create_total(@sale)
     @sale.sale_phrase = helpers.create_sale_phrase(@sale)
     if @sale.save
+      helpers.update_inventory(@sale)
+      
       redirect_back(fallback_location: 'new')
     end
   end

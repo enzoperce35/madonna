@@ -99,6 +99,27 @@ module SalesHelper
     end
   end
 
+  def deduct_inventory_items(id, count)
+    product = Product.find_by(id: id)
+
+    product.inventory_items.each do |item|
+      join = Order.find_by(product_id: id, inventory_item_id: item.id)
+
+      item_stock = item.remaining_stock - (join.subtractive * count)
+
+      item.update(remaining_stock: item_stock)
+    end
+  end
+  
+  def update_inventory(sale)
+    sale.items.each do |item|
+      product_id = item.product
+      product_count = item.multiplier
+
+      deduct_inventory_items(product_id, product_count)
+    end
+  end
+  
   def create_sale_phrase(sale, arr = [])
     sale.items.each do |item|
       product = Product.find_by(id: (item.product).to_i)
