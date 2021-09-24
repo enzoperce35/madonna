@@ -9,7 +9,6 @@ Rails.application.routes.draw do
 
   resources :products
   resources :inventories
-  resources :ingredients, :packagings, only: [:new, :create, :show, :update, :destroy, :edit]
   resources :sales, only: [:new, :create, :show, :update, :destroy]
   resources :orders, only: [:edit, :update]
 

@@ -4,10 +4,8 @@ class CreateInventoryItems < ActiveRecord::Migration[6.1]
       t.string :name
       t.string :unit
       t.float :current_stock
-      t.float :subtractive
-      t.float :additional
       t.float :remaining_stock
-      t.string :type
+      t.string :item_type
 
       t.timestamps
     end

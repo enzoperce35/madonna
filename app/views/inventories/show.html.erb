@@ -1,5 +1,5 @@
 <div class="container center">
-  <%= form_for :inventory_items, url: inventory_path, method: 'patch' do |f| %>
+  <%= form_for :inventory_items, url: inventory_path, method: 'put' do |f| %>
     <h3 style="color: rgb(111, 240, 25);">
       <strong><%= @item.name %></strong>
       <%= link_to '[x]', inventory_path(@item), method: 'delete', data: {confirm: 'Are you sure you want to delete this inventory item?'}%>
@@ -7,7 +7,7 @@
     
     <p class="inv-sections">
       <em>current_stock:</em><br>
-      <%= @item.remaining_stock %> / <%= @item.current_stock %><%= @item.unit %>
+      <%= @item.remaining_stock %> / <%= @item.current_stock %>&nbsp<%= @item.unit %>
     </p>
     <p class="inv-sections">
       <em style="font-style: italic;"><%= link_to 'tagged_products:', edit_inventory_path(@item) %></em><br>
@@ -19,12 +19,8 @@
     </p>
     <hr>
         <p>
-          <%= f.number_field :additional, step: :any, placeholder: 'raise stock' %>
-          <%= f.submit "RAISE"%>
-        </p>
-        <p>
-          <%= f.number_field :subtractive, step: :any, placeholder: 'lessen stock' %>
-          <%= f.submit "LESSEN"%>
+          <%= f.number_field :current_stock, step: :any %>
+          <%= f.submit "Update Stock"%>
         </p>
       <% end %>
       <br>

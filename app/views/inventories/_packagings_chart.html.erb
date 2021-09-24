@@ -1,7 +1,8 @@
 <div class="container">
-  <%= link_to 'Add Packaging', new_packaging_path, {:class => "btn btn-outline-secondary btn-sm"} %><br><br>
+  <%= link_to 'Add Packaging', new_inventory_path(:item_type => 'packaging'), {:class => "btn btn-outline-secondary btn-sm"} %><br><br>
   <% @packagings.each_with_index do | i, index | %>
-    <% raw_data = (i.remaining_stock / i.current_stock) * 100.round(2) %>
+    <% raw_data = (i.current_stock / i.remaining_stock) * 100.round(2) %>
+    <% unit_count = i.remaining_stock.to_s + ' ' + i.unit %>
     <% data = raw_data.to_s + '%' %>
     <% index += @ingredients.length + 1 %>
     <% index = index.to_s %>
@@ -17,10 +18,10 @@
     
     <div class="container" style="padding-left: 0%;">
       <div>
-        <strong><%= link_to i.name, packaging_path(i), method: 'get' %></strong>
+        <strong><%= link_to i.name, inventory_path(i), method: 'get' %></strong>
       </div>
       <div class="progress">
-        <div id=<%= id_target %> class="progress-bar <%= bg %>" role="progressbar" aria-valuenow="41" aria-valuemin="0" aria-valuemax="100"><%= raw_data.round(2).to_s %>%</div>
+        <div id=<%= id_target %> class="progress-bar <%= bg %>" role="progressbar" aria-valuenow="41" aria-valuemin="0" aria-valuemax="100"><%= unit_count %></div>
       </div>
     </div>
 

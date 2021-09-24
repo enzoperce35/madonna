@@ -1,16 +1,16 @@
 class InventoriesController < ApplicationController
   def index
-    #@ingredients = Ingredient.all.order(:name)
-    #@packagings = Packaging.all.order(:name)
-    @items = InventoryItem.all.order(:name)
+    @ingredients = InventoryItem.where(item_type: 'ingredient').order(:name)
+    @packagings = InventoryItem.where(item_type: 'packaging').order(:name)
   end
 
   def new
+    @item_type = params[:item_type]
     @products = Product.all
   end
 
   def create
-    @item= InventoryItem.new(item_params)
+    @item = InventoryItem.new(item_params)
 
     helpers.add_full_stock_of(@item)
     
@@ -28,13 +28,13 @@ class InventoriesController < ApplicationController
   def update
     @item = InventoryItem.find(params[:id])
 
-    unless params[:additional].nil? || params[:additional].nil?
-      helpers.update_stock(@item, :inventory_items)
-    end
-    
     if @item.update(item_params)
       
-      redirect_to inventories_path
+      helpers.update_stock_of(@item)
+      
+      redirect_to inventory_path(@item)
+    else
+      redirect_to root_path
     end
   end
 
@@ -53,7 +53,6 @@ class InventoriesController < ApplicationController
   private
 
   def item_params
-    # have to put a white space on :current_stock, dkw?
-    params.require(:inventory_items).permit(:name, :unit, :current_stock, product_ids: [])
+    params.require(:inventory_items).permit(:name, :unit, :current_stock, :additional, :subtractive, :item_type, product_ids: [])
   end
 end
