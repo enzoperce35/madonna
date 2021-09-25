@@ -20,7 +20,6 @@
   <td style="width: 3%;"><div id=<%= down_id %> class="btn btn-warning multiplier">-</div></td>
   
   <td style="width: 5%;">
-    <!--<%= f.number_field :multiplier, :id => multi_id, min: 0, max: 99 %>-->
     <%= f.input(:multiplier, label: false, as: :string, components: [:input], :wrapper => false, input_html: {id: multi_id, readonly: :true} )%>
   </td>
   

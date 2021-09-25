@@ -64,12 +64,6 @@ ActiveRecord::Schema.define(version: 2021_09_09_211846) do
     t.text "admin_notice"
   end
 
-  create_table "subtractors", force: :cascade do |t|
-    t.text "subtractives", array: true
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
