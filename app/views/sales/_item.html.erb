@@ -14,7 +14,7 @@
   </td>
   
   <td>
-    <%= f.input :product, label: false, collection: Product.all.order(:name), input_html: {id: prod_id, class: 'tyi'} %><br>
+    <%= f.input :product, label: false, collection: Product.all.order(:name), input_html: {id: prod_id, class: 'prod-input'} %><br>
   </td>
     
   <td style="width: 3%;"><div id=<%= down_id %> class="btn btn-warning multiplier">-</div></td>
@@ -32,16 +32,55 @@
 <script>
   document.getElementById('<%= prod_id %>').focus();
 
+  function extractIdentifier(id) {
+    identifier = id.slice(-13);
+
+    return identifier
+  };
+
   function showTotal() {
     var total = 0;
     document.querySelectorAll('.all-total').forEach(e => total += Number(e.innerHTML));
     
     return total;
-  }
+  };
+
+  function itemPrice(partial_id) {
+    var prodIndex = Number(document.getElementById('prod' + partial_id).value) - 1;
+    var prices = '<%= @products %>'.slice(1, -1).split(',');
+    var itemPrice = Number(prices[prodIndex]);
+    
+    if (isNaN(itemPrice)) {
+      return 0;
+    } else {
+      return Number(prices[prodIndex]);
+    };
+  };
+
+  
+  
+  
+  
+  var inputs = document.getElementsByClassName("prod-input");
+  
+  var orderInitializer = function() {
+    var prodId = this.getAttribute('id');
+    var identifier = extractIdentifier(prodId);
+    
+    var multi_id = 'multi' + identifier;
+    var price_id = 'price' + identifier;
+    
+    document.getElementById(multi_id).value = 1;
+    document.getElementById(price_id).innerHTML = itemPrice(identifier);
+    document.getElementById('grand-total').innerHTML = showTotal();
+   };
+  
+  for (var i = 0; i < inputs.length; i++) {
+    inputs[i].addEventListener('input', orderInitializer, false);
+  };
 
   
   var deleteButtons = document.getElementsByClassName("remove_record");
-
   var totalDeductor = function() {
     var deleteId = this.getAttribute('id');
     var price_id = deleteId.replace('delete', 'price');
@@ -54,17 +93,15 @@
     deleteButtons[i].addEventListener('click', totalDeductor, false);
    };
 
-  var a = 1;
-  function increase(partial_id){
+   
+   function increase(partial_id){
     var total = showTotal();
     
-    var prodIndex = Number(document.getElementById('prod' + partial_id).value) - 1;
-    var prices = '<%= @products %>'.slice(1, -1).split(',');
-    var price = Number(prices[prodIndex]);
+    var price = itemPrice(partial_id);
+    
     var multiplier = document.getElementById('multi' + partial_id);
     
-    multiplier.value = a;
-    a++;
+    multiplier.value++;
     
     total += price;
     document.getElementById('grand-total').innerHTML = total;
@@ -75,13 +112,10 @@
   function decrease(partial_id){
     var total = showTotal();
     
-    var prodIndex = Number(document.getElementById('prod' + partial_id).value) - 1;
-    var prices = '<%= @products %>'.slice(1, -1).split(',');
-    var price = Number(prices[prodIndex]);
+    var price = itemPrice(partial_id);
     var multiplier = document.getElementById('multi' + partial_id);
 
-    multiplier.value = a-2;
-    a--;
+    --multiplier.value-2;
 
     total -= price;
     document.getElementById('grand-total').innerHTML = total;
@@ -89,17 +123,16 @@
     document.getElementById('price' + partial_id).innerHTML = price * multiplier.value
   }
 
+  
   function inc_dec(attribute) {
+    identifier = extractIdentifier(attribute);
     
     if (attribute.includes('up')) {
-      partial_id = attribute.replace('up', '');
-      
-      increase(partial_id)
+      increase(identifier);
     }else {
-      partial_id = attribute.replace('down', '');
-      var multiplier = document.getElementById('multi' + partial_id);
+      var multiplier = document.getElementById('multi' + identifier);
       
-      if (multiplier.value > 0) decrease(partial_id);
+      if (multiplier.value > 0) decrease(identifier);
     };
   }
   

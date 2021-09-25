@@ -8,7 +8,7 @@
       <%= link_to sale_num, sale_path(sale) %> has been added to sales
       <% if !sale.admin_notice.nil? %>
         that need <em style="text-decoration:underline">admin actions</em>
-      <% elsif !sale.note.nil? %>
+      <% elsif !sale.note.blank? && !sale.note.nil?%>
         <em style="text-decoration:underline">with note</em>
       <% end %>
     </p>

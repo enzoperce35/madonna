@@ -4,6 +4,19 @@ class SalesController < ApplicationController
     @sale = Sale.find(params[:id])
   end
 
+  def show_total
+    sale_today = Sale.where("created_at >= ?", Time.zone.now.beginning_of_day)
+    @total_sales = 0
+    sale_today.each do |sale|
+      if sale.edited_total.nil?
+        @total_sales += sale.total
+      else
+        @total_sales += sale.edited_total.to_i
+      end
+      @total_sales
+    end
+  end
+
   def update
    if @sale.update(sale_params)
      redirect_to @sale, notice: 'Sale was successfully updated'
@@ -26,6 +39,7 @@ class SalesController < ApplicationController
     @sale.sale_number = helpers.incr_sale_number
     @sale.total = helpers.create_total(@sale)
     @sale.sale_phrase = helpers.create_sale_phrase(@sale)
+    
     if @sale.save
       helpers.update_inventory(@sale)
       

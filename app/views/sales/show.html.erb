@@ -6,7 +6,7 @@
 <div class="container" id="main-receipt">
   <h4 style="margin-left: 35%; margin-top: 15px">Ma'donna</h4>
   <%= Date.today.strftime("%B %d, %Y") %><br>Sale #<%= @sale.sale_number %>
-  <% unless @sale.note.nil? %>
+  <% unless @sale.note.nil? || @sale.note.blank? %>
     <br><em class="receipt-texts">Note: <%= @sale.note %></em>
   <% end %>
   <p class="dot-lines">........................................................................................</p>
