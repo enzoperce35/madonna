@@ -1,20 +1,12 @@
 class SalesController < ApplicationController
+  before_action :initialize_record, only: [:new]
   
   def show
     @sale = Sale.find(params[:id])
   end
 
   def show_total
-    sale_today = Sale.where("created_at >= ?", Time.zone.now.beginning_of_day)
-    @total_sales = 0
-    sale_today.each do |sale|
-      if sale.edited_total.nil?
-        @total_sales += sale.total
-      else
-        @total_sales += sale.edited_total.to_i
-      end
-      @total_sales
-    end
+    @total_sales = helpers.accumulate_sales
   end
 
   def update
@@ -42,6 +34,7 @@ class SalesController < ApplicationController
     
     if @sale.save
       helpers.update_inventory(@sale)
+      helpers.create_record(@sale)
       
       redirect_back(fallback_location: 'new')
     end
@@ -55,6 +48,14 @@ class SalesController < ApplicationController
   end
 
   private
+
+  def initialize_record
+    if helpers.no_record_for_today?
+      Record.create(day: helpers.incr_day_number, items: [])
+
+      Sale.destroy_all
+    end
+  end
 
   def set_sale_items
     @sale_items = Sale.find(params[:id])
