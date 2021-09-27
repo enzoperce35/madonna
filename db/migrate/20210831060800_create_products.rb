@@ -3,7 +3,7 @@ class CreateProducts < ActiveRecord::Migration[6.1]
     create_table :products do |t|
       t.string :name
       t.float :price
-      t.integer :multiplier
+      t.integer :multiplier, default: 0
       t.string :category
 
       t.timestamps
