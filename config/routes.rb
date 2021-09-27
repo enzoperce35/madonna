@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   get 'sales/show_total', to: 'sales#show_total', as: 'show_total'
+  post 'inventories/update_stock/:id', to: 'inventories#update_stock', as: 'update_stock'
 
   resources :products
   resources :inventories

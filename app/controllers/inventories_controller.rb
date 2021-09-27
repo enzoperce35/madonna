@@ -29,13 +29,18 @@ class InventoriesController < ApplicationController
     @item = InventoryItem.find(params[:id])
 
     if @item.update(item_params)
-      
-      helpers.update_stock_of(@item)
-      
       redirect_to inventory_path(@item)
     else
       redirect_to root_path
     end
+  end
+
+  def update_stock
+    @item = InventoryItem.find(params[:id])
+    
+    helpers.update_stock_of(@item)
+
+    redirect_to inventory_path(@item)
   end
 
   def destroy
@@ -53,6 +58,6 @@ class InventoriesController < ApplicationController
   private
 
   def item_params
-    params.require(:inventory_items).permit(:name, :unit, :current_stock, :additional, :subtractive, :item_type, product_ids: [])
+    params.require(:inventory_items).permit(:name, :unit, :current_stock, :item_type, product_ids: [])
   end
 end

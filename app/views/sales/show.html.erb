@@ -41,10 +41,10 @@
 
 <% unless current_user.username == 'jenny' %>
 <div class="container" style="margin-left: 31%; margin-top: 15px">
-<%= form_for :sales, url: sale_path(@sale), method: 'patch' do |f| %>
+<%= form_for :sale, url: sale_path(@sale), method: 'patch' do |f| %>
   <p>
    <%= f.label 'notify admin:' %><br>
-   <%= f.text_field :admin_notice %>
+   <%= f.text_field :admin_note %>
   </p>
   <p>
     <%= f.submit 'Submit' %>
@@ -52,6 +52,6 @@
 <% end %>
 </div>
 <% end %>
-<% if !@sale.admin_notice.nil? && current_user.username == 'jenny' %>
-  <p style="font-style: italic;"> notice: <%= @sale.admin_notice %></p>
+<% if !@sale.admin_note.nil? && current_user.username == 'jenny' %>
+  <p style="font-style: italic;"> notice: <%= @sale.admin_note %></p>
 <% end %>

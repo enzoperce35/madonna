@@ -41,6 +41,7 @@ class SalesController < ApplicationController
   end
 
   def new
+    @product_ids = Product.pluck(:id)
     @products = Product.pluck(:price)
     @sale = Sale.new
     @sale.items.build
@@ -62,6 +63,6 @@ class SalesController < ApplicationController
   end
 
   def sale_params
-    params.require(:sale).permit(:sale_number, :edited_total, :note, :total, :admin_notice, :product_id, :multiplier, items_attributes: Item.attribute_names.map(&:to_sym).push(:_destroy))
+    params.require(:sale).permit(:sale_number, :edited_total, :note, :total, :admin_note, :product_id, :multiplier, items_attributes: Item.attribute_names.map(&:to_sym).push(:_destroy))
   end
 end

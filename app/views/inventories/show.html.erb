@@ -1,29 +1,31 @@
 <div class="container center">
-  <%= form_for :inventory_items, url: inventory_path, method: 'put' do |f| %>
-    <h3 style="color: rgb(111, 240, 25);">
-      <strong><%= @item.name %></strong>
-      <%= link_to '[x]', inventory_path(@item), method: 'delete', data: {confirm: 'Are you sure you want to delete this inventory item?'}%>
-    </h3>
-    
-    <p class="inv-sections">
-      <em>current_stock:</em><br>
-      <%= @item.remaining_stock %> / <%= @item.current_stock %>&nbsp<%= @item.unit %>
+  <h3 style="color: rgb(111, 240, 25);">
+    <strong><%= @item.name %></strong>
+    <%= link_to '[x]', inventory_path(@item), method: 'delete', data: {confirm: 'Are you sure you want to delete this inventory item?'}%>
+  </h3>
+  
+  <p class="inv-sections">
+    <em>current_stock:</em><br>
+    <%= @item.remaining_stock %> / <%= @item.current_stock %>&nbsp<%= @item.unit %>
+  </p>
+  
+  <p class="inv-sections">
+    <em style="font-style: italic;"><%= link_to 'tagged_products:', edit_inventory_path(@item) %></em><br>
+    <% @item.products.each do |prod| %>
+      <% join = item_join(prod, @item) %>
+      
+      <em><%= prod.name %> <em style="color: red;"></em>=><%= link_to join.subtractive, edit_order_path(join) %></em><br>
+    <% end %>
+  </p>
+  
+  <hr>
+  
+  <%= form_for :inventory_items, url: update_stock_path(@item) do |f| %>
+    <p>
+      <%= f.number_field :current_stock, step: :any %>
+      <%= f.submit "Update Stock"%>
     </p>
-    <p class="inv-sections">
-      <em style="font-style: italic;"><%= link_to 'tagged_products:', edit_inventory_path(@item) %></em><br>
-      <% @item.products.each do |prod| %>
-        <% join = item_join(prod, @item) %>
-        
-        <em><%= prod.name %> <em style="color: red;"></em>=><%= link_to join.subtractive, edit_order_path(join) %></em><br>
-      <% end %>
-    </p>
-    <hr>
-        <p>
-          <%= f.number_field :current_stock, step: :any %>
-          <%= f.submit "Update Stock"%>
-        </p>
-      <% end %>
-      <br>
-  </div>
+  <% end %><br>
+
 </div>
     

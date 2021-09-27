@@ -47,8 +47,8 @@ ActiveRecord::Schema.define(version: 2021_09_25_205342) do
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.float "price"
-    t.integer "multiplier", default: 0
-    t.integer "sales", default: 0
+    t.integer "multiplier"
+    t.string "category"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -67,9 +67,10 @@ ActiveRecord::Schema.define(version: 2021_09_25_205342) do
     t.float "edited_total"
     t.text "note"
     t.text "sale_phrase", array: true
+    t.text "admin_note"
+    t.string "editor"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.text "admin_notice"
   end
 
   create_table "users", force: :cascade do |t|

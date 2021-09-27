@@ -1,7 +1,6 @@
 <%= simple_form_for(@sale) do |f| %>
   <%= f.error_notification %>
-  <%= Sale.count.inspect %><br>
-  <%= Item.count.inspect %>
+  
   <div>
     <div style="width:80%; float:left">
       <%= f.input :note, label: false, :input_html => {:rows => 1, :columns => 5}, placeholder: 'Add note here...'%>
@@ -49,6 +48,6 @@
    });
    
    document.getElementById('edited-total').addEventListener('click', function() {
-     this.value = showTotal()
+     this.value = showTotal();
    });
 </script>

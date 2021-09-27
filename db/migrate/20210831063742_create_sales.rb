@@ -6,6 +6,8 @@ class CreateSales < ActiveRecord::Migration[6.1]
       t.float :edited_total
       t.text :note
       t.text :sale_phrase, array: true
+      t.text :admin_note
+      t.string :editor
 
       t.timestamps
     end
