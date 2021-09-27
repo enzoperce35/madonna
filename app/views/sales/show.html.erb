@@ -39,7 +39,7 @@
     </div>
 </div>
 
-<% unless current_user.username == 'jenny' %>
+<% if current_user.username == 'jenny' %>
 <div class="container" style="margin-left: 31%; margin-top: 15px">
 <%= form_for :sale, url: sale_path(@sale), method: 'patch' do |f| %>
   <p>

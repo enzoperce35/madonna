@@ -2,14 +2,15 @@
 
   <% @sales_today.each do |sale| %>
      <% sale_num = "sale #" + sale.sale_number.to_s %>
-    <p>
-      <em style="color: lightseagreen;"><%= sale.created_at.strftime('%H:%M:%S') %></em>&nbsp
-      <%= Date.today.strftime %>,&nbsp
-      <%= link_to sale_num, sale_path(sale) %> has been added to sales
+    <p style="font-style: italic;">
+      <em style="color: lightseagreen;"><%= sale.created_at.strftime('%H:%M:%S') %></em>&nbsp&nbsp
+      <em style="color:orangered"><%= sale.editor %></em> added <%= link_to sale_num, sale_path(sale) %>
+      
+      
       <% if !sale.admin_note.nil? %>
-        that need <em style="text-decoration:underline">admin actions</em>
+         ~ need <em style="text-decoration:underline">admin actions</em>
       <% elsif !sale.note.blank? && !sale.note.nil?%>
-        <em style="text-decoration:underline">with note</em>
+        with note
       <% end %>
     </p>
   <% end %>

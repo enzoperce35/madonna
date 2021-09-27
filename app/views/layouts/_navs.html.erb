@@ -10,10 +10,7 @@
           <% if current_user %>
             <%= link_to 'Inventory | ', inventories_path, method: 'get' %>
             <%= link_to 'Sales', new_sale_path, method: 'get' %>
-          <% else %>
-            <%= link_to 'Sign In', new_user_session_path %>
-          <% end %>
-         </div>
+          
         
          <div class="hamburger">
           <span class="bar"></span>
@@ -27,12 +24,19 @@
           <%= link_to 'Products', products_path, method: 'get' %>
         </ul>
         <ul class='nav-item'>
-          <%= link_to 'Sales', show_total_path, method: 'get' %>
+          <%= link_to 'Total Sales', show_total_path, method: 'get' %>
         </ul>
         <ul class='nav-item'>
           <%= link_to 'Sign Out', destroy_user_session_path, method: 'delete' %>
         </ul>
       </ul>
+      
+      <% else %>
+            <%= link_to 'Sign In', new_user_session_path %>
+          <% end %>
+         </div>
+
+
     </div>
   </div>
 </nav>

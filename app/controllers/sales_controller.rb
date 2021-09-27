@@ -31,6 +31,7 @@ class SalesController < ApplicationController
     @sale.sale_number = helpers.incr_sale_number
     @sale.total = helpers.create_total(@sale)
     @sale.sale_phrase = helpers.create_sale_phrase(@sale)
+    @sale.editor = current_user.username
     
     if @sale.save
       helpers.update_inventory(@sale)

@@ -7,7 +7,7 @@ class ProductsController < ApplicationController
     @product = Product.new(product_params)
 
     if @product.save
-      redirect_to products_path, method: 'get'
+      redirect_to products_path, method: 'get', notice: 'Product has been added' 
     else
       redirect_back(fallback_location: 'new')
     end

@@ -1,8 +1,8 @@
-<h3>Add Inventory Item</h3>
+<h3 style="color:#1c725f"><em>Add <%= @item_type.capitalize %></em></h3>
 
 <%= form_for :inventory_items, url: inventories_path, method: 'post' do |f| %>
   <p>
-    <%= f.label 'item name' %><br>
+    <%= f.label @item_type +' name' %><br>
     <%= f.text_field :name %>
   </p>
   
@@ -11,14 +11,14 @@
       <%= f.label 'current stock' %><br>
       <%= f.number_field :current_stock, step: :any %>
     </div>
-    <div style="display:inline-block">
-      <%= f.label 'unit measure' %><br>
-      <%= f.text_field :unit, placeholder: 'pieces, dozens, packs, g, kg' %>
+    <div style="display:inline-block; width: 50px;">
+      <%= f.label 'unit' %><br>
+      <%= f.text_field :unit, :size => '5'%>
     </div>
   </div><br>
   
   <div class="container">
-    <strong>Tag Item to:</strong><br>
+    <strong>Tag <em style="color: rgb(132, 236, 132);"><%= @item_type.capitalize %></em> to:</strong><br>
     <%= f.collection_check_boxes(:product_ids, Product.all.order(:name), :id, :name) do |prod| %>
       <div class="form-check">
         <%= prod.check_box(class: "form-check-input") %>
