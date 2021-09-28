@@ -1,5 +1,5 @@
 class SalesController < ApplicationController
-  before_action :initialize_record, only: [:new]
+  before_action :initialize_record, only: [:create]
   
   def show
     @sale = Sale.find(params[:id])
