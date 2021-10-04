@@ -1,9 +1,9 @@
 <h3 style="color:#1c725f"><em>Add <%= @item_type.capitalize %></em></h3>
-
+<% placehold = @item_type.include?('parent') ? 'babawasan ni pipoy' : 'mababawas sa sale' %>
 <%= form_for :inventory_items, url: inventories_path, method: 'post' do |f| %>
   <p>
     <%= f.label @item_type +' name' %><br>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, placeholder: placehold %>
   </p>
   
   <div>
@@ -16,7 +16,7 @@
       <%= f.text_field :unit, :size => '5'%>
     </div>
   </div><br>
-  
+  <% if !@item_type.include?('parent') %>
   <div class="container">
     <strong>Tag <em style="color: rgb(132, 236, 132);"><%= @item_type.capitalize %></em> to:</strong><br>
     <%= f.collection_check_boxes(:product_ids, Product.all.order(:name), :id, :name) do |prod| %>
@@ -26,6 +26,7 @@
       </div>
     <% end %>
   </div><br>
+  <% end %>
 
   <%= f.hidden_field :item_type, value: @item_type %>
  

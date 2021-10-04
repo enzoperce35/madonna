@@ -1,7 +1,19 @@
 class InventoriesController < ApplicationController
   def index
-    @ingredients = InventoryItem.where(item_type: 'ingredient').order(:name)
-    @packagings = InventoryItem.where(item_type: 'packaging').order(:name)
+    target = params[:target]
+    @ingredient = 'ingredient'
+    @packaging = 'packaging'
+
+    if !target.nil?
+      if target.include?('ingredient')
+        @ingredient = target
+      elsif target.include?('packaging')
+        @packaging = target
+      end
+    end
+    
+    @ingredients = InventoryItem.where(item_type: @ingredient).order(:name)
+    @packagings = InventoryItem.where(item_type: @packaging).order(:name)
   end
 
   def new
@@ -15,7 +27,7 @@ class InventoriesController < ApplicationController
     helpers.add_full_stock_of(@item)
     
     if @item.save
-      redirect_to inventories_path
+      redirect_back(fallback_location: 'new')
     else
       redirect_back(fallback_location: 'new')
     end
@@ -38,6 +50,8 @@ class InventoriesController < ApplicationController
   def update_stock
     @item = InventoryItem.find(params[:id])
 
+    @item.update(params.require(:inventory_items).permit(:deductor))
+
     @item.update(params.require(:inventory_items).permit(:current_stock))
     
     helpers.update_stock_of(@item)
@@ -45,6 +59,14 @@ class InventoriesController < ApplicationController
     redirect_to inventory_path(@item)
   end
 
+  def update_parent_stock
+    @item = InventoryItem.find(params[:id])
+
+    if @item.update(params.require(:inventory_items).permit(:remaining_stock))
+      redirect_back(fallback_location: root_path)
+    end
+  end
+  
   def destroy
     @item = InventoryItem.find(params[:id])
   

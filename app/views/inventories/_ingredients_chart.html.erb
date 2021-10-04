@@ -1,5 +1,6 @@
 <div class="container">
-  <%= link_to 'Add Ingredient', new_inventory_path(:item_type => 'ingredient'), {:class => "btn btn-outline-secondary btn-sm"} %><br><br>
+  <%= link_to 'Add Ingredient', new_inventory_path(:item_type => 'ingredient'), {:class => "btn btn-outline-secondary btn-sm"} %>
+  <%= link_to "\u24F5", inventories_path(:target => 'parent_ingredient'), method: 'get' %><br><br>
   <% @ingredients.each_with_index do | i, index | %>
     <% raw_data = (i.remaining_stock / i.current_stock) * 100.round(2) %>
     <% unit_count = i.remaining_stock.to_s + ' ' + i.unit %>

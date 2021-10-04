@@ -4,10 +4,11 @@ Rails.application.routes.draw do
 
   get 'sales/show_total', to: 'sales#show_total', as: 'show_total'
   post 'inventories/update_stock/:id', to: 'inventories#update_stock', as: 'update_stock'
+  post 'inventories/update_parent_stock/:id', to: 'inventories#update_parent_stock', as: 'update_parent'
 
   resources :products
   resources :inventories
-  resources :sales, only: [:new, :create, :show, :update, :destroy]
+  resources :sales, only: [:new, :index, :create, :show, :update, :destroy]
   resources :orders, only: [:edit, :update]
 
   
