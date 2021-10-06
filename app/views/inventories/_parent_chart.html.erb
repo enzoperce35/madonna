@@ -1,16 +1,25 @@
 <div class="container">
-  <%= link_to 'Add Packaging', new_inventory_path(:item_type => 'packaging'), {:class => "btn btn-outline-secondary btn-sm"} %>
-  <%= link_to "\u24F5", inventories_path(:target => 'parent_packaging'), method: 'get' %><br><br>
-  <% @packagings.each_with_index do | i, index | %>
+  <% item_type = @parent.first.item_type %>
+
+  <% if item_type.include?('ingredient') %>
+    <%= link_to 'Ingredient 2', new_inventory_path(:item_type => item_type), {:class => "btn btn-outline-secondary btn-sm"} %><br><br>
+    <% background = 'bg-success' %>
+  <% else %>
+    <%= link_to 'Packaging 2', new_inventory_path(:item_type => item_type), {:class => "btn btn-outline-secondary btn-sm"} %><br><br>
+    <% background = 'bg-secondary' %>
+  <% end %>
+
+  <% @parent.each_with_index do | i, index | %>
+
     <% raw_data = (i.remaining_stock / i.current_stock) * 100.round(2) %>
     <% unit_count = i.remaining_stock.to_s + ' ' + i.unit %>
     <% data = raw_data.to_s + '%' %>
-    <% index += @ingredients.length + 1 %>
+    <% index += @child.length + 1 %>
     <% index = index.to_s %>
     <% id_target = 'prog-' + index.to_s %>
-      
+  
     <% if raw_data > 50 %>
-      <% bg = 'bg-success' %>
+      <% bg = background %>
     <% elsif raw_data <= 25 %>
       <% bg = 'bg-danger' %>
     <% else %>
@@ -34,7 +43,7 @@
       :root {
       --data: <%= data %>;
       --index: <%= index %>;
-      --pack_count: <%= @packagings.length %>;
+      --parent_count: <%= @parent.length + @child.length %>;
       }
     </style>
 
@@ -44,14 +53,13 @@
         
       var data = css_data.getPropertyValue('--data');
       var index = css_data.getPropertyValue('--index');
-      var pack_count = css_data.getPropertyValue('--pack_count')
+      var parent_count = css_data.getPropertyValue('--parent_count')
 
-      num_in_js_format = Number(index)
-        
       data_arr.push(data)
+      num_in_js_format = Number(index)
       id_arr.push(num_in_js_format)
-        
-      render_data(data_arr, id_arr); if (pack_count == num_in_js_format);
+
+      if (parent_count == num_in_js_format) render_data(data_arr, id_arr);
     </script> 
   <% end %>
 </div>

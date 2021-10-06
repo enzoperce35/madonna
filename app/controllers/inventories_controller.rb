@@ -1,19 +1,15 @@
 class InventoriesController < ApplicationController
   def index
-    target = params[:target]
-    @ingredient = 'ingredient'
-    @packaging = 'packaging'
+  end
 
-    if !target.nil?
-      if target.include?('ingredient')
-        @ingredient = target
-      elsif target.include?('packaging')
-        @packaging = target
-      end
-    end
-    
-    @ingredients = InventoryItem.where(item_type: @ingredient).order(:name)
-    @packagings = InventoryItem.where(item_type: @packaging).order(:name)
+  def show_chart
+    item_type = params[:item_type]
+   
+    child = item_type
+    parent = 'parent_' + item_type
+     
+    @child = InventoryItem.where(item_type: child).order(:name)
+    @parent = InventoryItem.where(item_type: parent).order(:name)
   end
 
   def new
@@ -29,7 +25,7 @@ class InventoriesController < ApplicationController
     if @item.save
       redirect_back(fallback_location: 'new')
     else
-      redirect_back(fallback_location: 'new')
+      redirect_to inventories_path
     end
   end
 

@@ -1,9 +1,17 @@
-<h3 style="color:#1c725f"><em>Add <%= @item_type.capitalize %></em></h3>
-<% placehold = @item_type.include?('parent') ? 'babawasan ni pipoy' : 'mababawas sa sale' %>
+<% if @item_type.include?('parent') %>
+  <% item_type = @item_type.remove('parent_') %>
+  <% item_target = 'Warehouse' %>
+<% else %>
+  <% item_type = @item_type %>
+  <% item_target = 'Store' %>
+<% end %>
+
+<h3 style="color:#1c725f"><em>Add <%= item_type.capitalize %> (<%= item_target %>)</em></h3>
+
 <%= form_for :inventory_items, url: inventories_path, method: 'post' do |f| %>
   <p>
-    <%= f.label @item_type +' name' %><br>
-    <%= f.text_field :name, placeholder: placehold %>
+    <%= f.label item_type +' name' %><br>
+    <%= f.text_field :name %>
   </p>
   
   <div>
@@ -16,9 +24,10 @@
       <%= f.text_field :unit, :size => '5'%>
     </div>
   </div><br>
+  
   <% if !@item_type.include?('parent') %>
   <div class="container">
-    <strong>Tag <em style="color: rgb(132, 236, 132);"><%= @item_type.capitalize %></em> to:</strong><br>
+    <strong>Tag <em style="color: rgb(132, 236, 132);"><%= item_type.capitalize %></em> to:</strong><br>
     <%= f.collection_check_boxes(:product_ids, Product.all.order(:name), :id, :name) do |prod| %>
       <div class="form-check">
         <%= prod.check_box(class: "form-check-input") %>

@@ -1,21 +1,2 @@
-<script>
-    data_arr = []
-    id_arr = []
-  
-    function render_data(data_arr, id_arr) {
-      data_arr.forEach((data, index) => {
-      const id = id_arr[index]
-        document.getElementById("prog-" + id).style.width = data;
-      });
-    };
-  </script>
-   
-  <div class="parent_container d-flex">
-    <div class="container">
-      <%= render 'inventories/' + @ingredient + 's_chart' %>
-    </div>
-    <div class="container">
-      <%= render 'inventories/' + @packaging + 's_chart' %>
-    </div>
-  </div>
-  
+<%= link_to 'Ingredients', chart_path(:item_type => 'ingredient'), {:class => "btn btn-outline-secondary btn-sm", method: 'get'} %><br><br>
+<%= link_to 'Packagings', chart_path(:item_type => 'packaging'), {:class => "btn btn-outline-secondary btn-sm", method: 'get'} %><br><br>
