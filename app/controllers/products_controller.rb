@@ -3,6 +3,20 @@ class ProductsController < ApplicationController
   def new
   end
 
+  def edit
+    @product = Product.find(params[:id])
+  end
+
+  def update
+    @product = Product.find(params[:id])
+
+    if @product.update(product_params)
+      redirect_to products_path
+    else
+      redirect_back(fallback_location: 'new')
+    end
+  end
+
   def create
     @product = Product.new(product_params)
 
@@ -14,7 +28,7 @@ class ProductsController < ApplicationController
   end
 
   def index
-    @products = Product.all
+    @products = Product.all.order(:name)
   end
 
   def show

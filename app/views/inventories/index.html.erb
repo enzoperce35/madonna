@@ -1,2 +1,11 @@
-<%= link_to 'Ingredients', chart_path(:item_type => 'ingredient'), {:class => "btn btn-outline-secondary btn-sm", method: 'get'} %><br><br>
-<%= link_to 'Packagings', chart_path(:item_type => 'packaging'), {:class => "btn btn-outline-secondary btn-sm", method: 'get'} %><br><br>
+<div>
+  <div style="float: left;">
+    <%= link_to 'Ingredients', chart_path(:item_type => 'ingredient'), {:class => "btn btn-outline-secondary btn-sm", method: 'get'} %>
+  </div>
+  <div style="float: left; margin-left:30px">
+    <%= link_to 'Packagings', chart_path(:item_type => 'packaging'), {:class => "btn btn-outline-secondary btn-sm", method: 'get'} %>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,19 @@
+<h3>Edit "<%= @product.name.capitalize %>"</h3>
+
+<%= form_for :products, url: product_path, method: 'patch' do |f| %>
+  <p>
+    <%= f.label 'product' %><br>
+    <%= f.text_field :name, value: @product.name %>
+  </p>
+  <p>
+    <%= f.label 'category' %><br>
+    <%= f.text_field :category, value: @product.category %>
+  </p>
+  <p>
+    <%= f.label 'price' %><br>
+    <%= f.number_field :price, step: :any, value: @product.price %>
+  </p>
+  <p>
+    <%= f.submit "Edit" %>
+  </p>
+<% end %>

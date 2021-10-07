@@ -2,10 +2,10 @@
   <% item_type = @child.first.item_type %>
 
   <% if item_type.include?('ingredient') %>
-    <%= link_to 'Ingredient 1', new_inventory_path(:item_type => item_type), {:class => "btn btn-outline-secondary btn-sm"} %><br><br>
+    <%= link_to 'Ingredient (Store)', new_inventory_path(:item_type => item_type), {:class => "btn btn-outline-secondary btn-sm"} %><br><br>
     <% background = 'bg-success' %>
   <% else %>
-    <%= link_to 'Packaging 1', new_inventory_path(:item_type => item_type), {:class => "btn btn-outline-secondary btn-sm"} %><br><br>
+    <%= link_to 'Packaging (Store)', new_inventory_path(:item_type => item_type), {:class => "btn btn-outline-secondary btn-sm"} %><br><br>
     <% background = 'bg-secondary' %>
   <% end %>
   
