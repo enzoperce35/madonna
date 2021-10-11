@@ -54,14 +54,6 @@ class InventoriesController < ApplicationController
 
     redirect_to inventory_path(@item)
   end
-
-  def update_parent_stock
-    @item = InventoryItem.find(params[:id])
-
-    if @item.update(params.require(:inventory_items).permit(:remaining_stock))
-      redirect_back(fallback_location: root_path)
-    end
-  end
   
   def destroy
     @item = InventoryItem.find(params[:id])

@@ -5,7 +5,6 @@ class HomeController < ApplicationController
 
   def show_sale
     @records = Record.where.not("DATE(created_at) = ?", Date.today)
-    @item_records = @records.pluck(:items)
     @today = Record.find_by(created_at: Time.current.beginning_of_day..Time.now)
   end
 

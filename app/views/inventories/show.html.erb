@@ -9,7 +9,6 @@
     <%= @item.remaining_stock %> / <%= @item.current_stock %>&nbsp<%= @item.unit %>
   </p>
   
-  <% if !@item.item_type.include?('parent') %>
   <p class="inv-sections">
     <em style="font-style: italic;"><%= link_to 'tagged_products:', edit_inventory_path(@item) %></em><br>
     <% @item.products.each do |prod| %>
@@ -18,18 +17,8 @@
       <em><%= prod.name %> <em style="color: red;"></em>=><%= link_to join.subtractive, edit_order_path(join) %></em><br>
     <% end %>
   </p>
-  <% end %>
   
   <hr>
-  
-  <% if @item.item_type.include?('parent') %>
-  <%= form_for :inventory_items, url: update_parent_path(@item) do |f| %>
-    <p>
-      <%= f.number_field :remaining_stock, step: :any, value: @item.remaining_stock %>
-      <%= f.submit "Lessen Stock"%>
-    </p>
-  <% end %><br>
-  <% end %>
   
   <%= form_for :inventory_items, url: update_stock_path(@item) do |f| %>
     <p>

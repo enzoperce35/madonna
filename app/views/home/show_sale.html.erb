@@ -1,26 +1,12 @@
-<% all_items = @records.pluck(:items).sum %>
-<% sale_days = @records.count %>
-<% total_sales = @records.pluck(:sales).sum %>
-<% avrg_sale = total_sales / sale_days %>
-<% last_six =  @records.order(created_at: :desc).first(6) %>
+<% last_six =  @records.where.not(sales: 0).order(created_at: :desc).first(6) %>
+<% no_sales =  @today.nil? || @today.sales.zero? %>
 
-<% sold_items = @today.items.group_by(&:itself).values unless @today.nil? %>
-
-<div class="container">
-  <% if @today.nil? %>
-    <h4>No sale for today</h4>
-  <% else %>
-    <div class="container d-flex" style="padding-left: 0;">
-      <div>
-        <h4><%= link_to 'Today', show_record_path(@today), method: 'get' %></h4>
-      </div>
-      <div style="margin-left: 54%;">
-        <h4><strong><%= @today.sales %></strong></h4>
-      </div>
-    </div>
-  <% end %>
-</div>
-  
+<% if no_sales %>
+  <h4>No sales for today</h4>
+<% else %>
+  <h4>Today</h4>
+<% end%>
+    
 <table class='table'>
   <thead>
     <tr>
@@ -29,6 +15,13 @@
     </tr>
   </thead>
   <tbody>
+    <% unless no_sales %>
+      <tr style="border: black;">
+        <td><%= link_to @today.created_at.strftime('%b %e, %a'), show_record_path(@today), method: 'get' %></td>
+        <td><h4><strong><%= @today.sales %></strong></h4></td>
+      </tr>
+    <% end %>
+    
     <% last_six.each do |day| %>
       <tr>
         <td>
@@ -41,7 +34,7 @@
     <% end %>
       <tr style="color:brown;">
         <td>average</td>
-        <td><%= last_six.pluck(:sales).sum / 6%></td>
+        <td><%= (last_six.pluck(:sales).sum / 6).round(2) %></td>
       </tr>
   </tbody>
 </table>

@@ -14,7 +14,7 @@
   </td>
 
   <td>
-    <%= f.input :product, label: false, collection: Product.all.order(:name), input_html: {id: prod_id, class: 'prod-input'} %><br>
+    <%= f.input :product, label: false, collection: @collection, input_html: {id: prod_id, class: 'prod-input'} %><br>
   </td>
 
   <td style="width: 3%;"><div id=<%= down_id %> class="btn btn-warning multiplier">-</div></td>
@@ -25,7 +25,9 @@
 
   <td style="width: 3%;"><div id=<%= up_id %> class="btn btn-success multiplier">+</div></td>
 
-  <td id= <%= price_id %> style="text-align:right" class="all-total"></td>
+  <% if @warehouse.nil? %>
+    <td id= <%= price_id %> style="text-align:right" class="all-total"></td>
+  <% end %>
 </tr>
 
 

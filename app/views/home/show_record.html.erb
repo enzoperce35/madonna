@@ -1,5 +1,5 @@
 <% total = @record.sales %>
-<% sold_items = @record.items.group_by(&:itself).values %>
+<% sold_items = @record.items.group_by(&:itself).values.sort_by{ |arr| arr.count }.reverse %>
 
 <h3><%= @record.created_at.strftime('%b %e, %a') %></h3>
 
@@ -13,8 +13,11 @@
   </thead>
   <tbody>
     <% sold_items.each do |item| %>
-    <% product = Product.find_by(id: item[0]) %>
-    <% count = item.count %>
+      <% product = Product.find_by(id: item[0]) %>
+      <% warehouse = product.category == 'warehouse' %>
+      <% count = item.count %>
+      
+      <% next if warehouse %>
       <tr>
         <td>
           <%= product.name %>

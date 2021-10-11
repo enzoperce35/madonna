@@ -25,7 +25,6 @@
     </div>
   </div><br>
   
-  <% if !@item_type.include?('parent') %>
   <div class="container">
     <strong>Tag <em style="color: rgb(132, 236, 132);"><%= item_type.capitalize %></em> to:</strong><br>
     <%= f.collection_check_boxes(:product_ids, Product.all.order(:name), :id, :name) do |prod| %>
@@ -35,7 +34,6 @@
       </div>
     <% end %>
   </div><br>
-  <% end %>
 
   <%= f.hidden_field :item_type, value: @item_type %>
  

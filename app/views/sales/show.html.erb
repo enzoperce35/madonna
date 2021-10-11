@@ -1,3 +1,5 @@
+<% warehouse = @sale.sale_number.nil? %>
+
 <% prod_total = [] %>
 <% if current_user.username == 'jenny' %>
 <div><h4 style="text-align:left"><%= link_to '[X]', sale_path(@sale), method: 'delete', data: {confirm: 'are you sure you want to delete this sale?'} %></h4></div>
@@ -5,7 +7,12 @@
 
 <div class="container" id="main-receipt">
   <h4 style="margin-left: 35%; margin-top: 15px">Ma'donna</h4>
-  <%= Date.today.strftime("%B %d, %Y") %><br>Sale #<%= @sale.sale_number %>
+
+  <%= Date.today.strftime("%B %d, %Y") %><br>
+  <% unless warehouse %>
+    Sale #<%= @sale.sale_number %>
+  <% end %>
+  
   <% unless @sale.note.nil? || @sale.note.blank? %>
     <br><em class="receipt-texts">Note: <%= @sale.note %></em>
   <% end %>
@@ -15,16 +22,29 @@
       <% @sale.sale_phrase.each do |sale| %>
         <% product,price,multiplier,total = sale.split('$') %>
         <% prod_total << (price.to_f * multiplier.to_i) %>
-        <p class="receipt-texts"><%= product %><br><%= multiplier %>&nbsp X &nbsp<%= price %></p><br>
+        <p class="receipt-texts"><%= product %><br>
+          <% unless warehouse %>
+            <%= multiplier %>&nbsp X &nbsp<%= price %>
+          <% end %>
+        </p><br>
       <% end %>
     </div>
     <div class="container">
-      <% prod_total.each do |t| %>
-        <p class="receipt-texts" style="text-align:right"><%= t %><br><br></p><br>
+      <%if warehouse %>
+        <% @sale.sale_phrase.each do |phrase| %>
+          <% _,_,multiplier,_ = phrase.split('$') %>
+          <p class="receipt-texts" style="text-align:right">X <%= multiplier %><br><br></p>
+        <% end %>
+      <% else %>
+        <% prod_total.each do |t| %>
+          <p class="receipt-texts" style="text-align:right"><%= t %><br><br></p><br>
+        <% end %>
       <% end %>
     </div>
 </div>
     <p class="dot-lines">........................................................................................</p>
+    
+    <% unless warehouse %>
     <div class="parent-container d-flex" style="margin-bottom: 20px;">
         <div class="container"><strong>TOTAL</strong></div>
         <% if @sale.edited_total.nil? %>
@@ -37,6 +57,7 @@
           <% end %>
         <% end %>
     </div>
+    <% end %>
 </div>
 
 <% if current_user.username == 'jenny' %>

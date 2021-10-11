@@ -67,11 +67,13 @@ module SalesHelper
     Time.current.beginning_of_day > Sale.last.created_at
   end
   
-  def incr_sale_number
-    if Sale.last.nil? || new_day? 
+  def incr_sale_number(warehouse)
+    if !warehouse.nil?
+      nil
+    elsif Sale.last.nil? || new_day? || Record.last.sales == 0
       1
     else
-      Sale.last.sale_number + 1
+      Sale.where.not(sale_number: nil).last.sale_number + 1
     end
   end
   

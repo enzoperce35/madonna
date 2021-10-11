@@ -1,6 +1,7 @@
 <%= simple_form_for(@sale) do |f| %>
   <%= f.error_notification %>
   
+  <% if @warehouse.nil? %>
   <div>
     <div style="width:80%; float:left">
       <%= f.input :note, label: false, :input_html => {:rows => 1, :columns => 5}, placeholder: 'Add note here...'%>
@@ -9,17 +10,30 @@
       <%= f.input(:edited_total, label: false, as: :string, input_html: {id: 'edited-total'}, components: [:input], :wrapper => false, placeholder: 'edit total' )%>
     </div>
   </div>
+  <% else %>
+    <%= hidden_field_tag 'warehouse', @warehouse %>
+  <% end %>
   
   <table class='table'>
     <thead>
-      <tr>
-        <th></th>
-        <th>Product</th>
-        <th></th>
-        <th>Count</th>
-        <th></th>
-        <th style="text-align: right;">Price</th>
+      <% if @warehouse.nil? %>
+        <tr>
+          <th></th>
+          <th>Product</th>
+          <th></th>
+          <th>Count</th>
+          <th></th>
+          <th style="text-align: right;">Price</th>
+        </tr>
+      <% else %>
+        <tr>
+          <th></th>
+          <th>Warehouse Item</th>
+          <th></th>
+          <th>Count</th>
+          <th></th>
       </tr>
+      <% end %>
     </thead>
     <tbody class='fields'>
       <%= f.simple_fields_for :items do |builder| %>
@@ -28,16 +42,22 @@
     </tbody>
   </table>
   
+  <% if @warehouse.nil? %>
   <div class="container">
     <div id='grand-total' style="text-align: right;">0</div>
   </div>
+  <% end %>
   
   <div class="form-actions">
     <div id="new_item" style="float: left;">
       <%= link_to_add_row('Add Item', f, :items, class: 'btn btn-primary') %>
     </div>
     <div style="float: right;">
-      <%= f.button(:submit, class: 'btn btn-primary btn-success')%>
+      <% if @warehouse.nil? %>
+        <%= f.button(:submit, class: 'btn btn-primary btn-success') %>
+      <% else %>
+        <%= f.button(:submit, "Check Out", class: 'btn btn-primary btn-secondary') %>
+      <% end %>
     </div>
   </div>
 <% end %>
