@@ -52,12 +52,9 @@
     <div id="new_item" style="float: left;">
       <%= link_to_add_row('Add Item', f, :items, class: 'btn btn-primary') %>
     </div>
+    
     <div style="float: right;">
-      <% if @warehouse.nil? %>
-        <%= f.button(:submit, class: 'btn btn-primary btn-success') %>
-      <% else %>
-        <%= f.button(:submit, "Check Out", class: 'btn btn-primary btn-secondary') %>
-      <% end %>
+      <%= f.button(:submit, class: 'btn btn-primary btn-success') %>
     </div>
   </div>
 <% end %>

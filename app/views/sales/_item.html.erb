@@ -14,7 +14,13 @@
   </td>
 
   <td>
-    <%= f.input :product, label: false, collection: @collection, input_html: {id: prod_id, class: 'prod-input'} %><br>
+    <!--<%= f.input :product, label: false, collection: Product.all.order(:name), input_html: {id: prod_id, class: 'prod-input'} %><br>-->
+    <%= f.input :product,
+     label: false,
+     as: :grouped_select,
+     collection: @categories,
+     input_html: {id: prod_id, class: 'prod-input'},
+     group_method: :last %><br>
   </td>
 
   <td style="width: 3%;"><div id=<%= down_id %> class="btn btn-warning multiplier">-</div></td>

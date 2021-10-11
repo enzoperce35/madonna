@@ -8,16 +8,13 @@
     <tr>
       <th></th>
       <th></th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
     <% sold_items.each do |item| %>
       <% product = Product.find_by(id: item[0]) %>
-      <% warehouse = product.category == 'warehouse' %>
       <% count = item.count %>
       
-      <% next if warehouse %>
       <tr>
         <td>
           <%= product.name %>
@@ -25,15 +22,7 @@
         <td>
           X <%= count %>
         </td>
-        <td>
-          <%= count * product.price %>
-        </td>
       </tr>
     <% end %>
-      <tr style="color:brown;">
-        <td>Total</td>
-        <td></td>
-        <td><%= total %></td>
-      </tr>
   </tbody>
 </table>

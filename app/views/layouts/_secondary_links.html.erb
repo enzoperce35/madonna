@@ -1,0 +1,17 @@
+<div class="hamburger">
+  <span class="bar"></span>
+  <span class="bar"></span>
+  <span class="bar"></span>
+</div>
+
+<ul class='nav-menu'>
+  <ul class='nav-item'>
+    <%= link_to 'Products', products_path, method: 'get' %>
+  </ul>
+  <ul class='nav-item'>
+    <%= link_to 'Total Sales', show_sale_path, method: 'get' %>
+  </ul>
+  <ul class='nav-item'>
+    <%= link_to 'Sign Out', destroy_user_session_path, method: 'delete' %>
+  </ul>  
+</ul>

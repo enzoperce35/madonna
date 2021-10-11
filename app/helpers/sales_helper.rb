@@ -1,4 +1,14 @@
 module SalesHelper
+  def group_categories(arr = [])
+    categories = Product.pluck(:category)
+
+    categories.uniq.each do |category|
+      group = Product.where(category: category)
+
+      arr << [category, group]
+    end
+    arr
+  end
 
   def create_record(sale, item_ids = [])
     daily_record = Record.last
@@ -67,13 +77,11 @@ module SalesHelper
     Time.current.beginning_of_day > Sale.last.created_at
   end
   
-  def incr_sale_number(warehouse)
-    if !warehouse.nil?
-      nil
-    elsif Sale.last.nil? || new_day? || Record.last.sales == 0
+  def incr_sale_number
+    if Sale.last.nil? || new_day?
       1
     else
-      Sale.where.not(sale_number: nil).last.sale_number + 1
+      Sale.last.sale_number + 1
     end
   end
   

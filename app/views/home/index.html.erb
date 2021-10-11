@@ -2,15 +2,9 @@
 
   <% @sales_today.each do |sale| %>
      <% sale_num = "sale #" + sale.sale_number.to_s %>
-     <% warehouse = sale.sale_number.nil? %>
-    
      <p style="font-style: italic;">
       <em style="color: lightseagreen;"><%= sale.created_at.strftime('%H:%M:%S') %></em>&nbsp&nbsp
-      <% if warehouse %>
-        <em style="color:orangered"><%= sale.editor %></em> checked out <%= link_to 'Warehouse Items', sale_path(sale) %>
-      <% else %>
-        <em style="color:orangered"><%= sale.editor %></em> added <%= link_to sale_num, sale_path(sale) %>
-      <% end %>
+      <em style="color:orangered"><%= sale.editor %></em> added <%= link_to sale_num, sale_path(sale) %>
       
       
       <% if !sale.admin_note.nil? %>

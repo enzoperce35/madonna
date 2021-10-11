@@ -1,46 +1,21 @@
-
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <div>
-        <%= link_to  'Ma\'Donna Delicacies', root_path, {:class=>"navbar-brand"} %>
-      </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <div>
+      <%= link_to  'Ma\'Donna Delicacies', root_path, {:class=>"navbar-brand"} %>
+    </div>
      
-      <div>
-        <div id= "main-menu">
-          <% if current_user %>
-            <%= link_to 'Inventory | ', inventories_path, method: 'get' %>
-            <%= link_to 'Sales', new_sale_path, method: 'get' %>
+    <div>
+      <div id= "main-menu">
+        <% if current_user %>
+          <%= render 'layouts/primary_links' %>
           
-        
-         <div class="hamburger">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </div>
+          <%= render 'layouts/secondary_links' %>
+        <% else %>
+          <%= link_to 'Sign In', new_user_session_path %>
+        <% end %>
       </div>
-
-      <ul class='nav-menu'>
-        <ul class='nav-item'>
-          <%= link_to 'Products', products_path, method: 'get' %>
-        </ul>
-        <ul class='nav-item'>
-          <%= link_to 'Total Sales', show_sale_path, method: 'get' %>
-        </ul>
-        <ul class='nav-item'>
-          <%= link_to 'Sign Out', destroy_user_session_path, method: 'delete' %>
-        </ul>
-      </ul>
-      
-      <% else %>
-            <%= link_to 'Sign In', new_user_session_path %>
-          <% end %>
-         </div>
-
-
     </div>
   </div>
 </nav>
 
-
-
-<%= javascript_include_tag 'hamburger', 'data-turbolinks-track' => false %>
+<%= javascript_include_tag 'hamburger', 'data-turbolinks-track' => true %>

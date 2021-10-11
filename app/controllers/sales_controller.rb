@@ -27,10 +27,8 @@ class SalesController < ApplicationController
   end
 
   def create
-    @warehouse = params[:warehouse]
-    
     @sale = Sale.new(sale_params)
-    @sale.sale_number = helpers.incr_sale_number(@warehouse)
+    @sale.sale_number = helpers.incr_sale_number
     @sale.total = helpers.create_total(@sale)
     @sale.sale_phrase = helpers.create_sale_phrase(@sale)
     @sale.editor = current_user.username
@@ -44,14 +42,7 @@ class SalesController < ApplicationController
   end
 
   def new
-    @warehouse = params[:warehouse]
-    
-    if @warehouse.nil?
-      @collection = Product.where.not(category: 'warehouse').order(:name)
-    else
-      @collection = Product.where(category: 'warehouse').order(:name)
-    end
-    
+    @categories = helpers.group_categories
     @product_ids = Product.pluck(:id)
     @products = Product.pluck(:price)
     @sale = Sale.new
