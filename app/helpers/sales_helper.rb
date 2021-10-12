@@ -3,7 +3,7 @@ module SalesHelper
     categories = Product.pluck(:category)
 
     categories.uniq.each do |category|
-      group = Product.where(category: category)
+      group = Product.where(category: category).order(:name)
 
       arr << [category, group]
     end
