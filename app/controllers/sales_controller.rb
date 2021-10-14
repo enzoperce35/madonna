@@ -10,16 +10,26 @@ class SalesController < ApplicationController
   end
 
   def update
+   @sale = Sale.find(params[:id])
+   
    if @sale.update(sale_params)
-     redirect_to @sale, notice: 'Sale was successfully updated'
+     redirect_to root_path
    else
-    render 'edit'
+     redirect_back
    end
   end
 
   def destroy
+    @sale = Sale.find(params[:id])
+
+    helpers.update_inventory(@sale, true)
+    helpers.create_record(@sale, true)
+    
     @sale.destroy
-    redirect_to sales_url, notice: 'Sales was successfully destroyed'
+    
+    Record.last.update(sales: helpers.accumulate_sales)
+    
+    redirect_to root_path
   end
 
   def edit
@@ -48,6 +58,10 @@ class SalesController < ApplicationController
     @sale = Sale.new
     @sale.items.build
     @blocks = Array.new
+  end
+
+  def delete_request
+    @sale = Sale.find(params[:id])
   end
 
   private

@@ -9,15 +9,26 @@ module SalesHelper
     end
     arr
   end
-
-  def create_record(sale, item_ids = [])
+  
+  def create_record(sale, reverse = false, item_ids = [])
     daily_record = Record.last
-
+    deducted_items = daily_record.items
+    
     sale.items.each do |item|
-      item.multiplier.times { item_ids << item.product }
+      if reverse
+        item.multiplier.times do |i|
+          index = daily_record.items.index(item.product)
+          
+          deducted_items.delete_at(index)
+        end
+      else
+        item.multiplier.times { item_ids << item.product }
+      end
     end
-    x = daily_record.items + item_ids
-    daily_record.update(sales: accumulate_sales, items: x)
+
+    added_items = daily_record.items + item_ids
+    
+    daily_record.update(sales: accumulate_sales, items: reverse ? deducted_items : added_items)
   end
 
   def accumulate_sales
@@ -33,24 +44,28 @@ module SalesHelper
     total_sales
   end
   
-  def deduct_inventory_items(id, count)
+  def deduct_inventory_items(id, count, reverse)
     product = Product.find_by(id: id)
 
     product.inventory_items.each do |item|
       join = Order.find_by(product_id: id, inventory_item_id: item.id)
 
-      item_stock = item.remaining_stock - (join.subtractive * count)
+      if reverse
+        item_stock = item.remaining_stock + (join.subtractive * count)
+      else
+        item_stock = item.remaining_stock - (join.subtractive * count)
+      end
 
       item.update(remaining_stock: item_stock)
     end
   end
   
-  def update_inventory(sale)
+  def update_inventory(sale, reverse = false)
     sale.items.each do |item|
       product_id = item.product
       product_count = item.multiplier
 
-      deduct_inventory_items(product_id, product_count)
+      deduct_inventory_items(product_id, product_count, reverse)
     end
   end
   

@@ -1,0 +1,15 @@
+<% @sale.sale_phrase.each do |sale| %>
+  <% product,price,multiplier,total = sale.split('$') %>
+  <% unit_total = price.to_f * multiplier.to_i %>
+  
+  <div class="parent-container d-flex">
+    <div class="container">
+      <%= product %><br>
+      <%= multiplier %> X <%= price %>
+    </div>
+
+    <div class="container" style="text-align: right;">
+      <%= unit_total %><br>
+    </div>
+  </div><br>
+<% end %>

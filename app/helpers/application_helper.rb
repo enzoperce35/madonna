@@ -11,4 +11,11 @@ module ApplicationHelper
     end
     link_to(name, '#', class: "add_fields " + args[:class], data: {id: id, fields: fields.gsub("\n", "")})
   end
+
+  def user_is_admin?
+    user_signed_in? &&
+    current_user.username == 'paulcastro' ||
+    current_user.username == 'onyoy2011' ||
+    current_user.username == 'admin'
+  end
 end

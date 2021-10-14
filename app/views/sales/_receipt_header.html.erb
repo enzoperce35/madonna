@@ -1,0 +1,13 @@
+<% with_note = !@sale.note.nil? || !@sale.note.blank? %>
+
+<div>
+  <h4 style="margin-left: 35%; margin-top: 15px">Ma'donna</h4>
+
+  <%= Date.today.strftime("%B %d, %Y") %><br>
+  
+  <p>sale# <%= @sale.sale_number %></p>
+  
+  <% if with_note %>
+    <em class="receipt-texts">Note: <%= @sale.note %></em>
+  <% end %>
+</div>

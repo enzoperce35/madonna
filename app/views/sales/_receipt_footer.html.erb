@@ -1,0 +1,14 @@
+<% sale_is_not_edited = @sale.edited_total.nil? %>
+
+<div class="parent-container d-flex" style="margin-bottom: 20px;">
+  <div class="container"><strong>TOTAL</strong></div>
+    
+  <div class="container" style="text-align: right;">
+    <% if sale_is_not_edited %>
+     <%= @sale.total %>
+    <% else %>
+      <em style=" text-decoration: line-through;"><%= @sale.total %></em><br>
+      <%= @sale.edited_total %>
+    <% end %>
+  </div>
+</div>

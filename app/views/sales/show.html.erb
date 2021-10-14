@@ -1,78 +1,22 @@
-<% warehouse = @sale.sale_number.nil? %>
-
-<% prod_total = [] %>
-<% if current_user.username == 'jenny' %>
-<div><h4 style="text-align:left"><%= link_to '[X]', sale_path(@sale), method: 'delete', data: {confirm: 'are you sure you want to delete this sale?'} %></h4></div>
-<% end %>
-
 <div class="container" id="main-receipt">
-  <h4 style="margin-left: 35%; margin-top: 15px">Ma'donna</h4>
-
-  <%= Date.today.strftime("%B %d, %Y") %><br>
-  <% unless warehouse %>
-    Sale #<%= @sale.sale_number %>
-  <% end %>
-  
-  <% unless @sale.note.nil? || @sale.note.blank? %>
-    <br><em class="receipt-texts">Note: <%= @sale.note %></em>
-  <% end %>
-  <p class="dot-lines">........................................................................................</p>
-  <div class="parent-container d-flex">
-    <div class="container">
-      <% @sale.sale_phrase.each do |sale| %>
-        <% product,price,multiplier,total = sale.split('$') %>
-        <% prod_total << (price.to_f * multiplier.to_i) %>
-        <p class="receipt-texts"><%= product %><br>
-          <% unless warehouse %>
-            <%= multiplier %>&nbsp X &nbsp<%= price %>
-          <% end %>
-        </p><br>
-      <% end %>
-    </div>
-    <div class="container">
-      <%if warehouse %>
-        <% @sale.sale_phrase.each do |phrase| %>
-          <% _,_,multiplier,_ = phrase.split('$') %>
-          <p class="receipt-texts" style="text-align:right">X <%= multiplier %><br><br></p>
-        <% end %>
+  <div style="text-align: right;">
+    <h4>
+      <% if user_is_admin? %>
+        <em style="font-size:small; color:red;"><%= @sale.admin_note %></em>
+        <%= link_to '[X]', sale_path(@sale), method: 'delete', data: {confirm: 'are you sure you want to delete this sale?'} %>
       <% else %>
-        <% prod_total.each do |t| %>
-          <p class="receipt-texts" style="text-align:right"><%= t %><br><br></p><br>
-        <% end %>
+        <%= link_to '[X]', delete_request_path(@sale), method: 'get', data: {confirm: 'send delete request to admin?'} %>
       <% end %>
-    </div>
-</div>
-    <p class="dot-lines">........................................................................................</p>
+    </h4>
+  </div>
+  
+  <%= render 'sales/receipt_header' %>
+  
+  <p class="dot-lines">........................................................................................</p>
+  
+  <%= render 'sales/receipt_body' %>
+  
+  <p class="dot-lines">........................................................................................</p>
     
-    <% unless warehouse %>
-    <div class="parent-container d-flex" style="margin-bottom: 20px;">
-        <div class="container"><strong>TOTAL</strong></div>
-        <% if @sale.edited_total.nil? %>
-          <div class="container" style="text-align: right;"><%= @sale.total %></div>
-        <% else %>
-          <% if @sale.total == @sale.edited_total %>
-            <div class="container" style="text-align: right;"><%= @sale.total %></div>
-          <% else %>
-            <div class="container" style="text-align: right;"><em style=" text-decoration: line-through;"><%= @sale.total %></em><br><%= @sale.edited_total %></div>
-          <% end %>
-        <% end %>
-    </div>
-    <% end %>
+  <%= render 'sales/receipt_footer' %>
 </div>
-
-<% if current_user.username == 'jenny' %>
-<div class="container" style="margin-left: 31%; margin-top: 15px">
-<%= form_for :sale, url: sale_path(@sale), method: 'patch' do |f| %>
-  <p>
-   <%= f.label 'notify admin:' %><br>
-   <%= f.text_field :admin_note %>
-  </p>
-  <p>
-    <%= f.submit 'Submit' %>
-  </p>
-<% end %>
-</div>
-<% end %>
-<% if !@sale.admin_note.nil? && current_user.username == 'jenny' %>
-  <p style="font-style: italic;"> notice: <%= @sale.admin_note %></p>
-<% end %>

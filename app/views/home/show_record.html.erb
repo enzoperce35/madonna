@@ -14,6 +14,8 @@
     <% sold_items.each do |item| %>
       <% product = Product.find_by(id: item[0]) %>
       <% count = item.count %>
+
+      <% next if false_category(product) %>
       
       <tr>
         <td>

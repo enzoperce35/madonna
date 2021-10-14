@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get 'inventories/show_chart', to: 'inventories#show_chart', as: 'chart'
   get 'home/show_record/:id', to: 'home#show_record', as: 'show_record'
   get 'home/show_sale', to: 'home#show_sale', as: 'show_sale'
-  put 'sales/check_out', to: 'sales#check_out'
+  get 'sales/delete_request/:id', to: 'sales#delete_request', as: 'delete_request'
   post 'inventories/update_stock/:id', to: 'inventories#update_stock', as: 'update_stock'
 
   resources :products

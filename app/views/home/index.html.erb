@@ -1,17 +1,26 @@
-<div class="container">
-
+<div>
   <% @sales_today.each do |sale| %>
      <% sale_num = "sale #" + sale.sale_number.to_s %>
+     <% with_note = !sale.note.blank? && !sale.note.nil? %>
+     <% delete_is_requested = !sale.admin_note.nil? %>
+     
      <p style="font-style: italic;">
       <em style="color: lightseagreen;"><%= sale.created_at.strftime('%H:%M:%S') %></em>&nbsp&nbsp
-      <em style="color:orangered"><%= sale.editor %></em> added <%= link_to sale_num, sale_path(sale) %>
+      <em style="color:orangered"><%= sale.editor %></em> added
+
+      <% if user_signed_in? %>
+        <%= link_to sale_num, sale_path(sale) %>
+      <% else %>
+        <em style="color:slateblue"><%= sale_num %></em>
+      <% end %>
       
-      
-      <% if !sale.admin_note.nil? %>
-         ~ need <em style="text-decoration:underline">admin actions</em>
-      <% elsif !sale.note.blank? && !sale.note.nil?%>
+      <% if with_note %>
         with note
+      <% end %>
+      
+      <% if delete_is_requested %>
+        <em style="color:red">(delete requested)</em>
       <% end %>
     </p>
   <% end %>
-  </div>
+</div>
