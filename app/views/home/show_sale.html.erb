@@ -1,11 +1,7 @@
 <% last_six =  @records.where.not(sales: 0).order(created_at: :desc).first(6) %>
 <% no_sales =  @today.nil? || @today.sales.zero? %>
 
-<% if no_sales %>
-  <h4>No sales for today</h4>
-<% else %>
-  <h4>Today</h4>
-<% end%>
+<h4><%= no_sales ? 'No sales for today' : 'Today' %></h4>
     
 <table class='table'>
   <thead>

@@ -8,12 +8,13 @@
 <% end %>
 
 <tr>
+  
   <td style="width: 5%;">
     <%= f.input_field :_destroy, as: :hidden %>
     <%= link_to '[X]', '#', class: 'remove_record', id: delete_id %>
   </td>
 
-  <td>
+  <td style="width:72%; padding-right:50px">
     <!--<%= f.input :product, label: false, collection: Product.all.order(:name), input_html: {id: prod_id, class: 'prod-input'} %><br>-->
     <%= f.input :product,
     label: false,
@@ -22,7 +23,7 @@
     input_html: {id: prod_id, class: 'prod-input'},
     group_method: :last %><br>
   </td>
-
+  
   <td style="width: 3%;"><div id=<%= down_id %> class="btn btn-warning multiplier">-</div></td>
 
   <td style="width: 5%;">
@@ -30,20 +31,11 @@
   </td>
 
   <td style="width: 3%;"><div id=<%= up_id %> class="btn btn-success multiplier">+</div></td>
+  
+  <td id= <%= price_id %> style="text-align:right; padding-left: -5px" class="all-total"></td>
 
-  <% if @warehouse.nil? %>
-    <td id= <%= price_id %> style="text-align:right" class="all-total"></td>
-  <% end %>
 </tr>
-
-
 <script>
-  document.getElementById('<%= prod_id %>').focus();
-
-  $(document).ready(function() {
-    $('.prod-input').select2();
-  });
-
   function extractIdentifier(id) {
     identifier = id.slice(-13);
 
@@ -56,8 +48,27 @@
 
     return total;
   };
-
   
+  $(document).ready(function() {
+    $('.prod-input').select2();
+  });
+
+  $(document).on('select2:open', () => {
+    document.querySelector('.select2-search__field').focus();
+  });
+  
+  $('.prod-input').on('select2:select', function (e) {
+    var prodId = this.getAttribute('id');
+    var identifier = extractIdentifier(prodId);
+
+    var multi_id = 'multi' + identifier;
+    var price_id = 'price' + identifier;
+
+    document.getElementById(multi_id).value = 1;
+    document.getElementById(price_id).innerHTML = itemPrice(identifier);
+    document.getElementById('grand-total').innerHTML = showTotal();
+  });
+
   function itemPrice(partial_id) {
     const toNumbers = arr => arr.map(Number);
     var prodId = Number(document.getElementById('prod' + partial_id).value);
@@ -74,25 +85,6 @@
     };
   };
 
- var inputs = document.getElementsByClassName("prod-input");
-
-  var orderInitializer = function() {
-    var prodId = this.getAttribute('id');
-    var identifier = extractIdentifier(prodId);
-
-    var multi_id = 'multi' + identifier;
-    var price_id = 'price' + identifier;
-
-    document.getElementById(multi_id).value = 1;
-    document.getElementById(price_id).innerHTML = itemPrice(identifier);
-    document.getElementById('grand-total').innerHTML = showTotal();
-   };
-
-  for (var i = 0; i < inputs.length; i++) {
-    inputs[i].addEventListener('input', orderInitializer, false);
-  };
-
-
   var deleteButtons = document.getElementsByClassName("remove_record");
   var totalDeductor = function() {
     var deleteId = this.getAttribute('id');
@@ -105,7 +97,6 @@
    for (var i = 0; i < deleteButtons.length; i++) {
     deleteButtons[i].addEventListener('click', totalDeductor, false);
    };
-
 
    function increase(partial_id){
     var total = showTotal();
@@ -136,7 +127,6 @@
     document.getElementById('price' + partial_id).innerHTML = price * multiplier.value
   }
 
-
   function inc_dec(attribute) {
     identifier = extractIdentifier(attribute);
 
@@ -148,7 +138,6 @@
       if (multiplier.value > 0) decrease(identifier);
     };
   }
-
 
   var elements = document.getElementsByClassName("multiplier");
 
