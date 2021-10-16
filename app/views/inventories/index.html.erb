@@ -5,7 +5,29 @@
   <div style="float: left; margin-left:30px">
     <%= link_to 'Packagings', chart_path(:item_type => 'packaging'), {:class => "btn btn-outline-secondary btn-sm", method: 'get'} %>
   </div>
-</div>
+</div><br><br>
+
+<% InventoryItem.all.each do |item| %>
+  <% expected = expected_exhaustion(item) %>
+  <% next if expected > 6 %>
+  <%= item.name %>
+<% end %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <td>Item</td>
+      <td>End</td>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
 
 
 
