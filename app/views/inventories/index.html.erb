@@ -24,7 +24,7 @@
       <% hash.store(item, expectation) %>
     <% end %>
 
-    <% hash.sort_by(&:last).reverse.each do |a, b| %>
+    <% hash.sort_by(&:last).each do |a, b| %>
       <tr>
         <td><%= link_to a.name, inventory_path(a), method: 'get' %></td>
 

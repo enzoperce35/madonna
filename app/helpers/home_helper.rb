@@ -14,7 +14,7 @@ module HomeHelper
     
     days = days.rotate(index)
 
-    expectation > 0 ? 'exhausted' : days[expectation]
+    expectation <= 0 ? 'exhausted' : days[expectation-1]
   end
 
   def expected_exhaustion(item)
