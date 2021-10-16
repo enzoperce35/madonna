@@ -23,6 +23,8 @@ class InventoriesController < ApplicationController
     helpers.add_full_stock_of(@item)
     
     if @item.save
+      helpers.add_last_restock_of(@item)
+      
       redirect_back(fallback_location: 'new')
     else
       redirect_to inventories_path

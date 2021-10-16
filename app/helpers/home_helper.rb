@@ -5,14 +5,22 @@ module HomeHelper
     product.category == "Special"
   end
 
-  def expected_exhaustion(item)
-    return 10 if item.current_stock < item.remaining_stock
+  def get_day(expectation)
+    today = Date.today.strftime("%A")
     
-    if item.last_restock.nil?
-      item.update(last_restock: item.created_at)
-    end
+    days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    
+    index = today == 'Sunday' ? days.index('Monday') : days.index(today)
+    
+    days = days.rotate(index)
 
-    store_days = Record.where(created_at: item.last_restock..DateTime.current).count
+    expectation > 0 ? 'exhausted' : days[expectation]
+  end
+
+  def expected_exhaustion(item)
+    return 10 if (item.current_stock <= item.remaining_stock)
+    
+    store_days = Record.where(created_at: item.last_restock.beginning_of_day..DateTime.current).count
     consume_days = item.current_stock - item.remaining_stock
     rate_per_unit = store_days / consume_days
     

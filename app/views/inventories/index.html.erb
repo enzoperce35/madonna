@@ -7,27 +7,32 @@
   </div>
 </div><br><br>
 
-<% InventoryItem.all.each do |item| %>
-  <% expected = expected_exhaustion(item) %>
-  <% next if expected > 6 %>
-  <%= item.name %>
-<% end %>
-
-<table class="table">
+<table class="table" style="font-style: italic; color:brown">
   <thead>
     <tr>
       <td>Item</td>
+      <td>Last Update</td>
       <td>End</td>
     </tr>
   </thead>
   
   <tbody>
-    <tr>
-      <td>1</td>
-      <td>2</td>
-    </tr>
+    <% hash = {} %>
+    <% InventoryItem.all.each do |item| %>
+      <% expectation = expected_exhaustion(item).round %>
+      <% next if expectation > 6 %>
+      <% hash.store(item, expectation) %>
+    <% end %>
+
+    <% hash.sort_by(&:last).reverse.each do |a, b| %>
+      <tr>
+        <td><%= link_to a.name, inventory_path(a), method: 'get' %></td>
+
+        <td><%= a.last_restock.strftime('%b. %d') %></td>
+        
+        <td><%= get_day(b) %></td>
+      </tr>
+    <% end %>
+    
   </tbody>
 </table>
-
-
-
