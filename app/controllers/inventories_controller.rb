@@ -3,10 +3,10 @@ class InventoriesController < ApplicationController
   end
 
   def show_chart
-    item_type = params[:item_type]
+    @item_type = params[:item_type]
    
-    child = item_type
-    parent = 'parent_' + item_type
+    child = @item_type
+    parent = 'parent_' + @item_type
      
     @child = InventoryItem.where(item_type: child).order(:name)
     @parent = InventoryItem.where(item_type: parent).order(:name)

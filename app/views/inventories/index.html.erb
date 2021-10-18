@@ -10,29 +10,14 @@
 <table class="table" style="font-style: italic; color:brown">
   <thead>
     <tr>
-      <td>Item</td>
-      <td>Last Update</td>
-      <td>End</td>
     </tr>
   </thead>
   
   <tbody>
-    <% hash = {} %>
-    <% InventoryItem.all.each do |item| %>
-      <% expectation = expected_exhaustion(item).round %>
-      <% next if expectation > 6 %>
-      <% hash.store(item, expectation) %>
-    <% end %>
-
-    <% hash.sort_by(&:last).each do |a, b| %>
-      <tr>
-        <td><%= link_to a.name, inventory_path(a), method: 'get' %></td>
-
-        <td><%= a.last_restock.strftime('%b. %d') %></td>
-        
-        <td><%= get_day(b) %></td>
-      </tr>
-    <% end %>
-    
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
   </tbody>
 </table>
