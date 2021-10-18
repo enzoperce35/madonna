@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_16_195948) do
+ActiveRecord::Schema.define(version: 2021_10_18_082649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,12 +18,13 @@ ActiveRecord::Schema.define(version: 2021_10_16_195948) do
   create_table "inventory_items", force: :cascade do |t|
     t.string "name"
     t.string "unit"
-    t.float "current_stock"
+    t.float "maximum_stock"
     t.float "remaining_stock"
     t.string "item_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "last_restock"
+    t.float "margin", default: 1.0
   end
 
   create_table "items", force: :cascade do |t|

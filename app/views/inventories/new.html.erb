@@ -11,17 +11,28 @@
 <%= form_for :inventory_items, url: inventories_path, method: 'post' do |f| %>
   <p>
     <%= f.label item_type +' name' %><br>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, required: 'required' %>
   </p>
   
   <div>
     <div style="display:inline-block">
-      <%= f.label 'current stock' %><br>
-      <%= f.number_field :current_stock, step: :any %>
+      <%= f.label 'maximum stock' %><br>
+      <%= f.number_field :maximum_stock, step: :any, required: 'required'  %>
     </div>
+    
     <div style="display:inline-block; width: 50px;">
       <%= f.label 'unit' %><br>
-      <%= f.text_field :unit, :size => '5'%>
+      <%= f.text_field :unit, :size => '5', required: 'required' %>
+    </div><br>
+    
+    <div>
+      <%= f.label 'current stock' %><br>
+      <%= f.number_field :remaining_stock, step: :any, required: 'required'  %>
+    </div>
+    
+    <div>
+      <%= f.label 'margin' %><br>
+      <%= f.number_field :margin, step: :any, required: 'required'  %>
     </div>
   </div><br>
   

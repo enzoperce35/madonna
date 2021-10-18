@@ -19,15 +19,13 @@ class InventoriesController < ApplicationController
 
   def create
     @item = InventoryItem.new(item_params)
-
-    helpers.add_full_stock_of(@item)
     
     if @item.save
-      helpers.add_last_restock_of(@item)
+      @item.update(last_restock: @item.created_at)
       
-      redirect_back(fallback_location: 'new')
+      redirect_to chart_path(item_type: @item.item_type.sub('parent_', ''))
     else
-      redirect_to inventories_path
+      redirect_back(fallback_location: 'new')
     end
   end
 
@@ -39,22 +37,12 @@ class InventoriesController < ApplicationController
     @item = InventoryItem.find(params[:id])
 
     if @item.update(item_params)
-      redirect_to inventory_path(@item)
+      @item.update(last_restock: @item.updated_at) if params[:inventory_items][:remaining_stock].present?
+      
+      redirect_to chart_path(item_type: @item.item_type.sub('parent_', ''))
     else
       redirect_to root_path
     end
-  end
-
-  def update_stock
-    @item = InventoryItem.find(params[:id])
-    
-    #@item.update(params.require(:inventory_items).permit(:deductor))
-
-    @item.update(params.require(:inventory_items).permit(:current_stock))
-    
-    helpers.update_stock_of(@item)
-
-    redirect_to inventory_path(@item)
   end
   
   def destroy
@@ -72,6 +60,6 @@ class InventoriesController < ApplicationController
   private
 
   def item_params
-    params.require(:inventory_items).permit(:name, :unit, :current_stock, :item_type, product_ids: [])
+    params.require(:inventory_items).permit(:name, :unit, :maximum_stock, :remaining_stock, :margin, :item_type, product_ids: [])
   end
 end

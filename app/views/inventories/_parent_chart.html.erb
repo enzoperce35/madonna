@@ -8,20 +8,17 @@
   <% end %>
 
   <% @parent.each_with_index do | i, index | %>
-
-    <% raw_data = (i.remaining_stock / i.current_stock) * 100.round(2) %>
+    <% raw_data = (i.remaining_stock / i.maximum_stock) * 100.round(2) %>
     <% unit_count = i.remaining_stock.to_s + ' ' + i.unit %>
     <% data = raw_data.to_s + '%' %>
     <% index += @child.length + 1 %>
     <% index = index.to_s %>
     <% id_target = 'prog-' + index.to_s %>
   
-    <% if raw_data > 50 %>
-      <% bg = background %>
-    <% elsif raw_data <= 25 %>
+    <% if i.remaining_stock <= i.margin %>
       <% bg = 'bg-danger' %>
     <% else %>
-      <% bg = 'bg-warning' %>
+      <% bg = background %>
     <% end %>
     
     <div class="container" style="padding-left: 0%;">

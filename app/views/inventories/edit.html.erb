@@ -1,5 +1,33 @@
-<% tagged_products = [] %>
-<%= form_for :inventory_items, url: inventory_path(@item), method: 'patch' do |f| %>
+<h3 style="color:#1c725f">
+  <em>Edit <%= @item.name.capitalize %></em>
+  <%= link_to '[x]', inventory_path(@item), method: 'delete', data: {confirm: 'Are you sure you want to delete this inventory item?'}%>
+</h3>
+
+<%= form_for :inventory_items, url: inventory_path, method: 'patch' do |f| %>
+  <p>
+    <%= f.label 'name' %><br>
+    <%= f.text_field :name, value: @item.name, required: 'required'  %>
+  </p>
+  
+  <div>
+    <div style="display:inline-block">
+      <%= f.label 'maximum stock' %><br>
+      <%= f.number_field :maximum_stock, step: :any, value: @item.maximum_stock, required: 'required'  %>
+    </div>
+    
+    <div style="display:inline-block; width: 50px;">
+      <%= f.label 'unit' %><br>
+      <%= f.text_field :unit, :size => '5', value: @item.unit, required: 'required'  %>
+    </div><br>
+    
+    <div>
+      <%= f.label 'margin' %><br>
+      <%= f.number_field :margin, step: :any, value: @item.margin, required: 'required'  %>
+    </div>
+  </div><br>
+  
+  <% tagged_products = [] %>
+  <div class="container">
     <% @item.products.each { |p| tagged_products << p.name } %>
  
     <strong>tag <em style="color: rgb(132, 236, 132);"><%= @item.name %></em> to:</strong><br>
@@ -11,7 +39,7 @@
         </div>
       <% end %>
     </div>
-  </p>
+ 
   <p>
     <%= f.submit "Submit" %>
   </p>
