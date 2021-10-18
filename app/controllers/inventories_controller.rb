@@ -47,8 +47,8 @@ class InventoriesController < ApplicationController
 
   def update_stock
     @item = InventoryItem.find(params[:id])
-
-    @item.update(params.require(:inventory_items).permit(:deductor))
+    
+    #@item.update(params.require(:inventory_items).permit(:deductor))
 
     @item.update(params.require(:inventory_items).permit(:current_stock))
     

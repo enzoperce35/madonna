@@ -22,10 +22,9 @@
   
   <%= form_for :inventory_items, url: update_stock_path(@item) do |f| %>
     <p>
-      <%= f.number_field :current_stock, step: :any %>
-      <%= f.submit "Update Stock"%>
+      <%= f.number_field :current_stock, step: :any, :required => 'required' %>
+      <%= f.submit "Update Stock", data: {confirm: 'Are you sure you want to update this item?'} %>
     </p>
   <% end %><br>
-
 </div>
     
