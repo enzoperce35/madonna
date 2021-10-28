@@ -9,7 +9,7 @@
       <em style="color:orangered"><%= sale.editor %></em> added
 
       <% if user_signed_in? %>
-        <%= link_to sale_num, sale_path(sale) %>
+        <%= link_to sale_num, sale_path(sale), method: 'get' %>
       <% else %>
         <em style="color:slateblue"><%= sale_num %></em>
       <% end %>

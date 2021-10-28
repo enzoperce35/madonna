@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :sales, only: [:new, :index, :create, :show, :update, :destroy]
   resources :orders, only: [:edit, :update]
   resources :home, only: [:show]
+  resources :records, only: [:index, :show]
 
   
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

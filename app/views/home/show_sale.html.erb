@@ -1,8 +1,15 @@
 <% last_six =  @records.where.not(sales: 0).order(created_at: :desc).first(6) %>
 <% no_sales =  @today.nil? || @today.sales.zero? %>
 
-<h4><%= no_sales ? 'No sales for today' : 'Today' %></h4>
-    
+<div>
+  <div style="float:left">
+   <h4><%= no_sales ? 'No sales for today' : 'Today' %></h4>
+  </div>
+  <div style="float:right">
+    <%= link_to 'Add Sale', new_sale_path, method: 'get' %>
+  </div>
+</div>
+
 <table class='table'>
   <thead>
     <tr>
