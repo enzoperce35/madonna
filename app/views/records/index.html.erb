@@ -1,5 +1,5 @@
-<% all_items = @records.pluck(:items).flatten %>
-<% sold_items = all_items.group_by(&:itself).values.sort_by{ |arr| arr.count }.reverse %>
+<% all_items = arrange(@records) %>
+<% sold_items = all_items.group_by(&:itself).values %>
 
 <%= form_tag('/records', method: :get) do %>
   <p>
@@ -19,7 +19,7 @@
 
 <hr style="margin-bottom: 50px;">
 
-<table class="table" style="font-style: italic; margin-bottom: 30px; color:forestgreen">
+<table class="table" style="font-style: italic; margin-bottom: 50px; color:forestgreen">
   <h4 style="font-style: italic; color:forestgreen"><strong>Sales (<%= readable(@begin_date) %> - <%= readable(@end_date) %>)</strong></h4>
   <thead>
     <tr>
@@ -53,11 +53,13 @@
   </thead>
   <tbody>
     <% sold_items.each do |item| %>
-      <% product = Product.find_by(id: item[0]) %>
+      <% product = Product.find_by(name: item[0]) %>
       <% count = item.count %>
 
+      <% next if false_category(product) %>
+      
       <tr>
-        <td><%= product.nil? ? 'n/a' : product.name %></td>
+        <td><%= product.name %></td>
         <td>x <%= count %></td>
       </tr>
     <% end %>

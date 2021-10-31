@@ -3,7 +3,7 @@ class RecordsController < ApplicationController
     user_start = params[:start]
     user_end = params[:end]
     
-    @begin_date = user_start.nil? ? Date.today - 14.days : user_start
+    @begin_date = user_start.nil? ? Date.today - 6.days : user_start
 
     @end_date = user_end.nil? ? Date.yesterday : user_end
     
