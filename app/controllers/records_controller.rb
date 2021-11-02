@@ -7,7 +7,7 @@ class RecordsController < ApplicationController
 
     @end_date = user_end.nil? ? Date.yesterday : user_end
     
-    @records = Record.where(created_at: @begin_date..@end_date).order(:created_at)
+    @records = Record.where(created_at: @begin_date.beginning_of_day..@end_date.end_of_day).order(:created_at)
   end
 
   def show
